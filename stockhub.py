@@ -36,5 +36,9 @@ def preciousmetal():
 def crudeoil():
     return render_template('crudeoil.html', title='Crude Oil')
 
+@app.route("/hello", methods=["GET"])
+def hello():
+    return render_template('hello.html', title='Crude Oil')
+
 if __name__ == '___main__': 
     app.run(debug=True)
