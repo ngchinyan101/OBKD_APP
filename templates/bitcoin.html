@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+        <h1>Latest Bitcoin Rate Check</h1>
+        <br>
+        <form action="bitcoinresult" method="post">
+            Cryptocurrencies <input type="text" name="bitcoinSymbol" value="Bitcoin"><br>
+            <br>
+            API Key <input type="text" name="APIKey" value=""><br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <a href="cryptocurrency">Back to Cryptocurrencies Page</a>
+
+{% endblock content %}

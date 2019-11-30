@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if lCode %}
+    <div>
+        <h2 id="title"><u>Latest Litecoin Rate Price</u></h2>
+        <h4>Litecoin Rate Ticker ({{ lCode }})</h4>
+        <h4>Exchange Rate ({{ lRate }})</h4>
+        <h4>Date and time ({{ lTime }})</h4>
+        <a href="litecoin">Back to Litecoin Page</a>
+    </div>
+
+    {% else %}
+    <div>
+        <h1>No rate data</h1>
+        <a href="litecoin">Back to Litecoin Page</a>
+    </div>
+    
+    {% endif %}
+
+
+{% endblock content %}

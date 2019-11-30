@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+        <h1>Latest Ethereum Rate Check</h1>
+        <br>
+        <form action="ethereumresult" method="post">
+            Cryptocurrencies <input type="text" name="ethereumSymbol" value="Ethereum"><br>
+            <br>
+            API Key <input type="text" name="APIKey" value=""><br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <a href="cryptocurrency">Back to Cryptocurrencies Page</a>
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if eCode %}
+    <div>
+        <h2 id="title"><u>Latest Ethereum Rate Price</u></h2>
+        <h4>Ethereum Rate Ticker ({{ eCode }})</h4>
+        <h4>Exchange Rate ({{ eRate }})</h4>
+        <h4>Date and time ({{ eTime }})</h4>
+        <a href="ethereum">Back to Ethereum Page</a>
+    </div>
+
+    {% else %}
+    <div>
+        <h1>No rate data</h1>
+        <a href="ethereum">Back to Ethereum Page</a>
+    </div>
+    
+    {% endif %}
+
+
+{% endblock content %}

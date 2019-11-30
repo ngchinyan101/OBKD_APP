@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if bCode %}
+    <div>
+        <h2 id="title"><u>Latest Bitcoin Rate Price</u></h2>
+        <h4>Bitcoin Rate Ticker ({{ bCode }})</h4>
+        <h4>Exchange Rate ({{ bRate }})</h4>
+        <h4>Date and time ({{ bTime }})</h4>
+        <a href="bitcoin">Back to Bitcoin Page</a>
+    </div>
+
+    {% else %}
+    <div>
+        <h1>No rate data</h1>
+        <a href="bitcoin">Back to Bitcoin Page</a>
+    </div>
+    
+    {% endif %}
+
+
+{% endblock content %}
