@@ -45,7 +45,7 @@ if __name__ == '___main__':
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
 def bitcoin():
-    return render_template('bitcoin.html')
+    return render_template('bitcoin.html', title='Bitcoin')
 
 @app.route('/bitcoinresult',methods=['GET', 'POST'])
 def bitcoinresult():
@@ -74,17 +74,25 @@ def bitcoinresult():
 
         bitcoinData = json.loads(response.text)
 
+        fromBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+
+        fromBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+        toBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+        toBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
         lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
         
 
-    return render_template('bitcoin_rate.html', bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
+    return render_template('bitcoin_rate.html', title='Bitcoin Rate',bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName ,bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
 
 # litecoin section
 @app.route('/litecoin', methods=['GET'])
 def litecoin():
-    return render_template('litecoin.html')
+    return render_template('litecoin.html', title='Litecoin')
 
 @app.route('/litecoinresult',methods=['GET', 'POST'])
 def litecoinresult():
@@ -113,17 +121,25 @@ def litecoinresult():
 
         litecoinData = json.loads(response.text)
 
+        fromLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+
+        fromLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+        toLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+        toLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
         lastRefreshedLitecoinDate = litecoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeLitecoinRate = litecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
         
 
-    return render_template('litecoin_rate.html', lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
+    return render_template('litecoin_rate.html', title='litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
 
 # Ethereum section
 @app.route('/ethereum', methods=['GET'])
 def ethereum():
-    return render_template('ethereum.html')
+    return render_template('ethereum.html', title='Ethereum')
 
 @app.route('/ethereumresult',methods=['GET', 'POST'])
 def ethereumresult():
@@ -152,9 +168,17 @@ def ethereumresult():
 
         ethereumData = json.loads(response.text)
 
+        fromEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+
+        fromEthereumName = ethereumData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+        toEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+        toEthereumName = ethereumData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
         lastRefreshedEthereumDate = ethereumData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeEthereumRate = ethereumData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
         
 
-    return render_template('ethereum_rate.html', eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate)
+    return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate)

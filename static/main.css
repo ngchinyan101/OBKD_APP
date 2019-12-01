@@ -218,3 +218,12 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 1230px;
     margin: 0 auto;
   }
+
+  #formcenter{
+   text-align: center;
+  }
+
+  input[type=text] {
+    border: 1px solid gray;
+    border-radius: 6px;
+  }

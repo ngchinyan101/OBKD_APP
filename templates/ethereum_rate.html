@@ -3,19 +3,23 @@
 {% block content %}
 
     {% if eCode %}
-    <div>
+    <div id="formcenter">
         <h2 id="title"><u>Latest Ethereum Rate Price</u></h2>
-        <h4>Ethereum Rate Ticker ({{ eCode }})</h4>
-        <h4>Exchange Rate ({{ eRate }})</h4>
-        <h4>Date and time ({{ eTime }})</h4>
-        <a href="ethereum">Back to Ethereum Page</a>
+        <h4><b>Currency Rate Ticker:</b> {{ eCode }}</h4>
+        <h4><b>From Currency:</b> {{ eFromCode }} ({{ eFromName }})</h4>
+        <h4><b>To Currency:</b> {{ eToCode }} ({{ eToName}})</h4>
+        <h4><b>Exchange Rate:</b> {{ eRate }}</h4>
+        <h4><b>Date and time:</b> {{ eTime }}</h4>
     </div>
 
+    <a href="ethereum">Back to Ethereum Page</a>
+
     {% else %}
-    <div>
+    <div id="formcenter">
         <h1>No rate data</h1>
-        <a href="ethereum">Back to Ethereum Page</a>
     </div>
+
+    <a href="ethereum">Back to Ethereum Page</a>
     
     {% endif %}
 

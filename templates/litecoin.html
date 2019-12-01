@@ -2,14 +2,16 @@
 
 {% block content %}
 
-        <h1>Latest Litecoin Rate Check</h1>
+        <h1 id="formcenter">Latest Litecoin Rate Check</h1>
         <br>
-        <form action="litecoinresult" method="post">
+        <form action="litecoinresult" method="post" id="formcenter">
             Cryptocurrencies <input type="text" name="litecoinSymbol" value="Litecoin"><br>
             <br>
             API Key <input type="text" name="APIKey" value=""><br>
             <br>
-            <input type="submit" value="Submit">
+            <p>
+                <button class="w3-button w3-white w3-border w3-border-red w3-round-large" type="submit">Submit</button>
+            </p>
         </form>
         <br>
         <a href="cryptocurrency">Back to Cryptocurrencies Page</a>

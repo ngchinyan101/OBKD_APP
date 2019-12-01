@@ -3,19 +3,23 @@
 {% block content %}
 
     {% if bCode %}
-    <div>
+    <div id="formcenter">
         <h2 id="title"><u>Latest Bitcoin Rate Price</u></h2>
-        <h4>Bitcoin Rate Ticker ({{ bCode }})</h4>
-        <h4>Exchange Rate ({{ bRate }})</h4>
-        <h4>Date and time ({{ bTime }})</h4>
-        <a href="bitcoin">Back to Bitcoin Page</a>
+        <h4><b>Currency Rate Ticker:</b> {{ bCode }}</h4>
+        <h4><b>From Currency:</b> {{ bFromCode }} ({{ bFromName }})</h4>
+        <h4><b>To Currency:</b> {{ bToCode }} ({{ bToName}})</h4>
+        <h4><b>Exchange Rate:</b> {{ bRate }}</h4>
+        <h4><b>Date and time:</b> {{ bTime }}</h4>
     </div>
 
+    <a href="bitcoin">Back to Bitcoin Page</a>
+
     {% else %}
-    <div>
+    <div id="formcenter">
         <h1>No rate data</h1>
-        <a href="bitcoin">Back to Bitcoin Page</a>
     </div>
+
+    <a href="bitcoin">Back to Bitcoin Page</a>
     
     {% endif %}
 

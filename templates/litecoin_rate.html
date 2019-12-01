@@ -3,20 +3,24 @@
 {% block content %}
 
     {% if lCode %}
-    <div>
+    <div id="formcenter">
         <h2 id="title"><u>Latest Litecoin Rate Price</u></h2>
-        <h4>Litecoin Rate Ticker ({{ lCode }})</h4>
-        <h4>Exchange Rate ({{ lRate }})</h4>
-        <h4>Date and time ({{ lTime }})</h4>
-        <a href="litecoin">Back to Litecoin Page</a>
+        <h4><b>Currency Rate Ticker:</b> {{ lCode }}</h4>
+        <h4><b>From Currency:</b> {{ lFromCode }} ({{ lFromName }})</h4>
+        <h4><b>To Currency:</b> {{ lToCode }} ({{ lToName}})</h4>
+        <h4><b>Exchange Rate:</b> {{ lRate }}</h4>
+        <h4><b>Date and time:</b> {{ lTime }}</h4>
     </div>
 
+    <a href="litecoin">Back to Litecoin Page</a>
+
     {% else %}
-    <div>
+    <div id="formcenter">
         <h1>No rate data</h1>
-        <a href="litecoin">Back to Litecoin Page</a>
     </div>
-    
+
+    <a href="litecoin">Back to Litecoin Page</a>
+
     {% endif %}
 
 
