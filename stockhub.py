@@ -1,10 +1,19 @@
 from requests_oauthlib import OAuth2Session
-from flask import Flask, request, redirect, session, url_for, render_template
+from flask import Flask, request, redirect, session, url_for, render_template, flash
+from forms import LoginForm
 from requests.auth import HTTPBasicAuth
 import requests
 import json
 
-app = Flask(__name__)
+app = Flask(_name_)
+
+app.config['SECRET_KEY'] = '031e8b93c90984f2c4a8bf0d0b7b3360'
+
+client_id = "8d7f7404c85cca13"
+client_secret = "031e8b93c90984f2c4a8bf0d0b7b3360"
+authorization_base_url = 'https://apm.tp.sandbox.fidor.com/oauth/authorize'
+token_url = 'https://apm.tp.sandbox.fidor.com/oauth/token'
+redirect_uri = 'http://localhost:5000/callback'
 
 @app.route("/")
 @app.route("/homepage")
@@ -35,9 +44,6 @@ def preciousmetal():
 def crudeoil():
     return render_template('crudeoil.html', title='Crude Oil')
 
-@app.route("/hello", methods=["GET"])
-def hello():
-    return render_template('hello.html', title='Crude Oil')
 
 if __name__ == '___main__': 
     app.run(debug=True)
@@ -183,3 +189,50 @@ def ethereumresult():
         
 
     return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate)
+
+@app.route("/callback", methods=["GET"])
+def callback():
+    # step 2: retrieving an access token
+    # the user has been redirected back from the provider to your registered
+    # callback URL. With this redirectly comes an authorization code included
+    # in the redirect URL. We will use that to obtain an access token.
+    try:
+        fidor = OAuth2Session(state=session['oauth_state'])
+
+        authorizationCode = request.args.get('code')
+        body = 'grant_type="authorization_code&code='+authorizationCode + \
+        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
+        auth = HTTPBasicAuth(client_id, client_secret)
+        token = fidor.fetch_token(token_url, auth=auth,
+                                  code=authorizationCode, body=body, method='POST')
+
+    # At this point you can fetch protected resources but lets save
+    # the token and show how this is done from a persisted token
+        session['oauth_token'] = token
+
+    # logged in for styles
+        session['key'] = 'loggedin'
+
+        return redirect(url_for('.home'))
+    except:
+        print('Error Occured')
+        return redirect(url_for('.login'))
+    # ROUTING for PAGES
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    
+    print('login')
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+
+            fidor = OAuth2Session(client_id, redirect_uri=redirect_uri)
+            authorization_url, state = fidor.authorization_url(authorization_base_url)
+            session['oauth_state'] = state
+            print("authorization URL is =" + authorization_url)
+            return redirect(authorization_url)
+        else:
+            flash('Invalid username/password. Please try again.', 'danger')
+    return render_template('login.html', form=form, title='Login')
