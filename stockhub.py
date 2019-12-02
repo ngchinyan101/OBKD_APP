@@ -11,9 +11,9 @@ app = Flask(__name__)
 def homepage():
     return render_template('home_page.html', title='Home')
 
-@app.route("/usequities", methods=["GET"])
-def usequities():
-    return render_template('usequities.html', title='U.S. Equities')
+@app.route("/profile", methods=["GET"])
+def profile():
+    return render_template('profile.html', title='My Profile')
 
 @app.route("/sgequities", methods=["GET"])
 def sgequities():
@@ -52,11 +52,11 @@ def bitcoinresult():
     error = None
     if request.method == "POST":
         bitcoinCode = request.form['bitcoinSymbol']
-        api_key = request.form['APIKey']
+        api_key = 'Y0N5J0ZJLKJACDU2'
 
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"SGD","to_currency":"BTC","apikey":api_key}
+        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"BTC","to_currency":"SGD","apikey":api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",
@@ -69,7 +69,6 @@ def bitcoinresult():
             'cache-control': "no-cache"
             }
     
-
         response = requests.request("GET", url, headers=headers, params=querystring)
 
         bitcoinData = json.loads(response.text)
@@ -89,6 +88,7 @@ def bitcoinresult():
 
     return render_template('bitcoin_rate.html', title='Bitcoin Rate',bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName ,bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
 
+
 # litecoin section
 @app.route('/litecoin', methods=['GET'])
 def litecoin():
@@ -99,11 +99,11 @@ def litecoinresult():
     error = None
     if request.method == "POST":
         litecoinCode = request.form['litecoinSymbol']
-        api_key = request.form['APIKey']
+        api_key = 'Y0N5J0ZJLKJACDU2'
 
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"SGD","to_currency":"LTC","apikey":api_key}
+        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"LTC","to_currency":"SGD","apikey":api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",
@@ -146,11 +146,12 @@ def ethereumresult():
     error = None
     if request.method == "POST":
         ethereumCode = request.form['ethereumSymbol']
-        api_key = request.form['APIKey']
+        api_key = 'Y0N5J0ZJLKJACDU2'
+
 
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"SGD","to_currency":"ETH","apikey":api_key}
+        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"ETH","to_currency":"SGD","apikey":api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",

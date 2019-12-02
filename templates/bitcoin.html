@@ -2,18 +2,18 @@
 
 {% block content %}
 
-        <h1 id="formcenter">Latest Bitcoin Rate Check</h1>
-        <br>
-        <form action="bitcoinresult" method="post" id="formcenter">
-            Cryptocurrencies: <input type="text" name="bitcoinSymbol" value="Bitcoin"><br>
-            <br>
-            API Key: <input type="text" name="APIKey" value=""><br>
-            <br>
-            <p>
-                <button class="w3-button w3-white w3-border w3-border-red w3-round-large" type="submit">Submit</button>
-            </p>
-        </form>
-        <br>
-        <a href="cryptocurrency">Back to Cryptocurrencies Page</a>
+<h1 id="formcenter">Latest Bitcoin Rate Check</h1>
+<br>
+<form action="bitcoinresult" method="post" id="formcenter">
+    Cryptocurrencies: <input type="text" name="bitcoinSymbol" value="Bitcoin"><br>
+    <br>
+    <!-- API Key: <input type="text" name="APIKey" value=""><br> -->
+    <br>
+    <p>
+        <button class="w3-button w3-white w3-border w3-border-red w3-round-large" type="submit">Submit</button>
+    </p>
+</form>
+<br>
+<a href="cryptocurrency">Back to Cryptocurrencies Page</a>
 
 {% endblock content %}
