@@ -1,11 +1,11 @@
-from requests_oauthlib import OAuth2Session
 from flask import Flask, request, redirect, session, url_for, render_template, flash
-from forms import LoginForm
+from requests_oauthlib import OAuth2Session
+from forms import RegistrationForm, LoginForm
 from requests.auth import HTTPBasicAuth
 import requests
 import json
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '031e8b93c90984f2c4a8bf0d0b7b3360'
 
@@ -51,6 +51,9 @@ if __name__ == '___main__':
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
 def bitcoin():
+    sess= session.get('oauth_state')
+    print(sess)
+
     return render_template('bitcoin.html', title='Bitcoin')
 
 @app.route('/bitcoinresult',methods=['GET', 'POST'])
@@ -212,8 +215,8 @@ def callback():
 
     # logged in for styles
         session['key'] = 'loggedin'
+        return redirect(url_for('.profile'))
 
-        return redirect(url_for('.home'))
     except:
         print('Error Occured')
         return redirect(url_for('.login'))
@@ -232,7 +235,7 @@ def login():
             authorization_url, state = fidor.authorization_url(authorization_base_url)
             session['oauth_state'] = state
             print("authorization URL is =" + authorization_url)
-            return redirect(authorization_url)
+            return redirect(url_for('.profile'))
         else:
             flash('Invalid username/password. Please try again.', 'danger')
     return render_template('login.html', form=form, title='Login')
