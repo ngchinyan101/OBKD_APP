@@ -18,41 +18,71 @@ redirect_uri = 'http://localhost:5000/callback'
 @app.route("/")
 @app.route("/homepage")
 def homepage():
+    session_var_value = session.get('key')
     return render_template('home_page.html', title='Home')
 
 @app.route("/profile", methods=["GET"])
 def profile():
+    session_var_value = session.get('key')
     return render_template('profile.html', title='My Profile')
 
 @app.route("/sgequities", methods=["GET"])
 def sgequities():
+    session_var_value = session.get('key')
     return render_template('sgequities.html', title='SG Equities')
 
 @app.route("/fx", methods=["GET"])
 def fx():
+    session_var_value = session.get('key')
     return render_template('fx.html', title='Foreign Exchange')
 
 @app.route("/cryptocurrency", methods=["GET"])
 def cryptocurrency():
+    session_var_value = session.get('key')
     return render_template('cryptocurrency.html', title='Crptocurrency')
 
 @app.route("/preciousmetal", methods=["GET"])
 def preciousmetal():
+    session_var_value = session.get('key')
     return render_template('preciousmetal.html', title='Precious Metal')
 
 @app.route("/crudeoil", methods=["GET"])
 def crudeoil():
+    session_var_value = session.get('key')
     return render_template('crudeoil.html', title='Crude Oil')
-
 
 if __name__ == '___main__': 
     app.run(debug=True)
 
+@app.route("/callback", methods=["GET"])
+def callback():
+
+    try:
+        fidor = OAuth2Session(state=session['oauth_state'])
+
+        authorizationCode = request.args.get('code')
+        body = 'grant_type="authorization_code&code='+authorizationCode + \
+        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
+        auth = HTTPBasicAuth(client_id, client_secret)
+        token = fidor.fetch_token(token_url, auth=auth,
+                                  code=authorizationCode, body=body, method='POST')
+
+        session['oauth_token'] = token
+
+        session['key'] = 'loggedin'
+
+        return redirect(url_for('.profile'))
+
+    except:
+        print('Error Occured')
+        return redirect(url_for('.login'))
+    # ROUTING for PAGES
+
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
 def bitcoin():
-    sess= session.get('oauth_state')
-    print(sess)
+
+    session_var_value = session.get('key')
 
     return render_template('bitcoin.html', title='Bitcoin')
 
@@ -101,6 +131,7 @@ def bitcoinresult():
 # litecoin section
 @app.route('/litecoin', methods=['GET'])
 def litecoin():
+    session_var_value = session.get('key')
     return render_template('litecoin.html', title='Litecoin')
 
 @app.route('/litecoinresult',methods=['GET', 'POST'])
@@ -148,6 +179,7 @@ def litecoinresult():
 # Ethereum section
 @app.route('/ethereum', methods=['GET'])
 def ethereum():
+    session_var_value = session.get('key')
     return render_template('ethereum.html', title='Ethereum')
 
 @app.route('/ethereumresult',methods=['GET', 'POST'])
@@ -192,35 +224,6 @@ def ethereumresult():
         
 
     return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate)
-
-@app.route("/callback", methods=["GET"])
-def callback():
-    # step 2: retrieving an access token
-    # the user has been redirected back from the provider to your registered
-    # callback URL. With this redirectly comes an authorization code included
-    # in the redirect URL. We will use that to obtain an access token.
-    try:
-        fidor = OAuth2Session(state=session['oauth_state'])
-
-        authorizationCode = request.args.get('code')
-        body = 'grant_type="authorization_code&code='+authorizationCode + \
-        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
-        auth = HTTPBasicAuth(client_id, client_secret)
-        token = fidor.fetch_token(token_url, auth=auth,
-                                  code=authorizationCode, body=body, method='POST')
-
-    # At this point you can fetch protected resources but lets save
-    # the token and show how this is done from a persisted token
-        session['oauth_token'] = token
-
-    # logged in for styles
-        session['key'] = 'loggedin'
-        return redirect(url_for('.profile'))
-
-    except:
-        print('Error Occured')
-        return redirect(url_for('.login'))
-    # ROUTING for PAGES
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
