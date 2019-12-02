@@ -19,6 +19,7 @@ $(document).ready(function () {
 })
 
 // litecoin 
+
 function buylitecoin() {
     $('#exampleModal').modal('show')
     var r = $("#lRate").text()
@@ -37,6 +38,7 @@ $(document).ready(function () {
 })
 
 // ethereum
+
 function buyethereum() {
     $('#exampleModal').modal('show')
     var r = $("#eRate").text()
