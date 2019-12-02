@@ -1,10 +1,25 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-12 blog-main">
-          <h3 class="pb-4 mb-4 font-italic border-bottom">
-            My Profile
-          </h3>
 
-{% endblock content %}
+
+<div class="row">
+  <div class="col-md-12 blog-main">
+    <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
+      My Profile
+    </h3>
+
+      <div id="formcenter">
+        <h4><b>Account No.</b> {{ fAccountNo }}</h4>
+        <h4><b>Balance:</b> {{ fBalance }}</h4>
+        <h4><b>Email Account:</b> {{ fEmailAccount }}</h4>
+        <h4 ><b>First Name:</b> {{ fFirstName }}</h4>
+
+    </div>
+
+    <div class="w3-container" >
+      <a href="/history" class="w3-btn w3-grey" style="text-decoration: none;">Transaction History</a>
+    </div>
+    
+
+      {% endblock content %}

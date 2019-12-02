@@ -21,11 +21,6 @@ def homepage():
     session_var_value = session.get('key')
     return render_template('home_page.html', title='Home', ses=session_var_value)
 
-@app.route("/profile", methods=["GET"])
-def profile():
-    session_var_value = session.get('key')
-    return render_template('profile.html', title='My Profile', ses=session_var_value)
-
 @app.route("/sgequities", methods=["GET"])
 def sgequities():
     session_var_value = session.get('key')
@@ -230,14 +225,64 @@ def login():
     print('login')
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+        if form.email.data == 'jscott_p0101@email.com' and form.password.data == 'jscott_p0101':
             flash('You have been logged in!', 'success')
 
             fidor = OAuth2Session(client_id, redirect_uri=redirect_uri)
             authorization_url, state = fidor.authorization_url(authorization_base_url)
             session['oauth_state'] = state
             print("authorization URL is =" + authorization_url)
-            return redirect(url_for('.profile'))
+            return redirect(authorization_url,url_for('.profile'))
         else:
             flash('Invalid username/password. Please try again.', 'danger')
     return render_template('login.html', form=form, title='Login')
+
+@app.route("/profile", methods=["GET"])
+def profile():
+    session_var_value = session.get('key')
+    ple = session.get('oauth_token')
+
+    try:
+        # get token
+        token = session['oauth_token']
+        # get accounts details url
+        url = "https://api.tp.sandbox.fidor.com/accounts"
+        
+        payload = ""
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Cache-Control': "no-cache",
+            'Postman-Token': "ec268b59-71ee-4ffd-9c3d-886b7a8aa7fa,b874d931-d9de-46fa-ac94-e658d726549b",
+        }
+
+        # accounts details response
+        response = requests.request("GET", url, data=payload, headers=headers)
+
+        # if (trans == trans): 
+        #     print(trans)
+
+        # print(top_headlines)
+        # your current token
+        print(token)
+        
+        customersAccount = json.loads(response.text)
+        customerDetails = customersAccount['data'][0]
+        customerInformation = customerDetails['customers'][0]
+        session['fidor_customer'] = customersAccount
+
+        return render_template('profile.html', title='My Profile', fId=customerInformation["id"], 
+                               fFirstName=customerInformation["first_name"], 
+                               fAccountNo=customerDetails["account_number"], fBalance=(
+                                   customerDetails["balance"]),
+                               fEmailAccount=customerInformation["email"], ses=session_var_value)
+
+    except KeyError:
+        # if token expired...
+        flash('Token expired!', 'danger')
+        session.pop('key', None)
+        session.pop('oauth_token', None)
+        session.clear()
+        print("Key error in services-to return back to index")
+        return redirect(url_for('login'))
+
