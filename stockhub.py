@@ -19,37 +19,37 @@ redirect_uri = 'http://localhost:5000/callback'
 @app.route("/homepage")
 def homepage():
     session_var_value = session.get('key')
-    return render_template('home_page.html', title='Home')
+    return render_template('home_page.html', title='Home', ses=session_var_value)
 
 @app.route("/profile", methods=["GET"])
 def profile():
     session_var_value = session.get('key')
-    return render_template('profile.html', title='My Profile')
+    return render_template('profile.html', title='My Profile', ses=session_var_value)
 
 @app.route("/sgequities", methods=["GET"])
 def sgequities():
     session_var_value = session.get('key')
-    return render_template('sgequities.html', title='SG Equities')
+    return render_template('sgequities.html', title='SG Equities', ses=session_var_value)
 
 @app.route("/fx", methods=["GET"])
 def fx():
     session_var_value = session.get('key')
-    return render_template('fx.html', title='Foreign Exchange')
+    return render_template('fx.html', title='Foreign Exchange', ses=session_var_value)
 
 @app.route("/cryptocurrency", methods=["GET"])
 def cryptocurrency():
     session_var_value = session.get('key')
-    return render_template('cryptocurrency.html', title='Crptocurrency')
+    return render_template('cryptocurrency.html', title='Crptocurrency', ses=session_var_value)
 
 @app.route("/preciousmetal", methods=["GET"])
 def preciousmetal():
     session_var_value = session.get('key')
-    return render_template('preciousmetal.html', title='Precious Metal')
+    return render_template('preciousmetal.html', title='Precious Metal',ses=session_var_value)
 
 @app.route("/crudeoil", methods=["GET"])
-def crudeoil():
+def crudeoil(): 
     session_var_value = session.get('key')
-    return render_template('crudeoil.html', title='Crude Oil')
+    return render_template('crudeoil.html', title='Crude Oil', ses=session_var_value)
 
 if __name__ == '___main__': 
     app.run(debug=True)
@@ -76,7 +76,6 @@ def callback():
     except:
         print('Error Occured')
         return redirect(url_for('.login'))
-    # ROUTING for PAGES
 
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
@@ -84,7 +83,7 @@ def bitcoin():
 
     session_var_value = session.get('key')
 
-    return render_template('bitcoin.html', title='Bitcoin')
+    return render_template('bitcoin.html', title='Bitcoin', ses=session_var_value)
 
 @app.route('/bitcoinresult',methods=['GET', 'POST'])
 def bitcoinresult():
@@ -132,7 +131,7 @@ def bitcoinresult():
 @app.route('/litecoin', methods=['GET'])
 def litecoin():
     session_var_value = session.get('key')
-    return render_template('litecoin.html', title='Litecoin')
+    return render_template('litecoin.html', title='Litecoin', ses=session_var_value)
 
 @app.route('/litecoinresult',methods=['GET', 'POST'])
 def litecoinresult():
@@ -180,7 +179,7 @@ def litecoinresult():
 @app.route('/ethereum', methods=['GET'])
 def ethereum():
     session_var_value = session.get('key')
-    return render_template('ethereum.html', title='Ethereum')
+    return render_template('ethereum.html', title='Ethereum', ses=session_var_value)
 
 @app.route('/ethereumresult',methods=['GET', 'POST'])
 def ethereumresult():
