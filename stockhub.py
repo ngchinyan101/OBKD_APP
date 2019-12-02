@@ -286,3 +286,12 @@ def profile():
         print("Key error in services-to return back to index")
         return redirect(url_for('login'))
 
+@app.route('/logout')
+def logout():
+
+    # Clear all token and key session
+    session.pop('key', None)
+    session.pop('oauth_token', None)
+    session.clear()
+    flash('Logged out successfully!', 'success')
+    return redirect(url_for('homepage'))
