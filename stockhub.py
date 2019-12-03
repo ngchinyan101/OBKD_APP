@@ -302,3 +302,42 @@ def logout():
     flash('Logged out successfully!', 'success')
     return redirect(url_for('homepage'))
 
+
+
+@app.route('/crudeoil_rate', methods=["GET", "POST"])
+def crudeoilrate():
+    error = None
+
+    # session_var_value = session.get('key')
+    # return render_template('crudeoilrate.html', title='Crude Oil Rate', ses=session_var_value)
+
+    url = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
+
+    querystring = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
+
+#payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
+    headers = {
+    'Accept': "*/*",
+    #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
+    'User-Agent': "PostmanRuntime/7.20.1",
+    'Cache-Control': "no-cache",
+    'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
+    'Host': "www.quandl.com",
+    'Accept-Encoding': "gzip, deflate",
+    #'Content-Length': "88",
+    'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
+    'Connection': "keep-alive",
+    'cache-control': "no-cache"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    crudeoil = json.loads(response.text)
+    table1 = crudeoil["dataset"]
+    tr = table1["data"][0]
+    tr1 = tr.pop(0)
+    tr2 = tr.pop(0)
+
+
+    return render_template('crudeoil_rate.html', table=tr1, table1=tr2)
+
