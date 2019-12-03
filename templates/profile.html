@@ -9,12 +9,33 @@
       My Profile
     </h3>
 
-      <div id="formcenter">
-        <h4><b>Account No.</b> {{ fAccountNo }}</h4>
+      <!-- <div id="formcenter">
+        <h4><b>Account No.:</b> {{ fAccountNo }}</h4>
         <h4><b>Balance:</b> {{ fBalance }}</h4>
         <h4><b>Email Account:</b> {{ fEmailAccount }}</h4>
         <h4 ><b>First Name:</b> {{ fFirstName }}</h4>
 
-    </div>
+    </div> -->
+
+    <table class="w3-table w3-striped w3-bordered">
+      <tr>
+        <th class="w3-center">Account No.:</th>
+        <td class="w3-center">{{ fAccountNo }}</td>
+      </tr>
+      <tr>
+        <th class="w3-center">Balance:</th>
+        <td class="w3-center">{{ fBalance }} </td>
+      </tr>
+      <tr>
+        <th class="w3-center">Email Account:</th>
+        <td class="w3-center">{{ fEmailAccount }}</td>
+      </tr>
+      <tr>
+        <th class="w3-center">First Name:</th>
+        <td class="w3-center">{{ fFirstName }}</td>
+      </tr>
+    </table>
+  </div>
+  
 
       {% endblock content %}

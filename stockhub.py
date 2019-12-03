@@ -7,6 +7,7 @@ import json
 
 app = Flask(__name__)
 
+app.config['SESSION_TYPE']='memcached'
 app.config['SECRET_KEY'] = '031e8b93c90984f2c4a8bf0d0b7b3360'
 
 client_id = "8d7f7404c85cca13"
@@ -46,6 +47,11 @@ def crudeoil():
     session_var_value = session.get('key')
     return render_template('crudeoil.html', title='Crude Oil', ses=session_var_value)
 
+@app.route("/cryptocurrencyindex", methods=["GET"])
+def cryptocurrencyindex(): 
+    session_var_value = session.get('key')
+    return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
+
 if __name__ == '___main__': 
     app.run(debug=True)
 
@@ -70,7 +76,7 @@ def callback():
 
     except:
         print('Error Occured')
-        return redirect(url_for('.login'))
+        return redirect(url_for('.homepage'))
 
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
@@ -168,7 +174,7 @@ def litecoinresult():
         latestExchangeLitecoinRate = litecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
         
 
-    return render_template('litecoin_rate.html', title='litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
+    return render_template('litecoin_rate.html', title='Litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
 
 # Ethereum section
 @app.route('/ethereum', methods=['GET'])
@@ -285,4 +291,14 @@ def profile():
         session.clear()
         print("Key error in services-to return back to index")
         return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+
+    # Clear all token and key session
+    session.pop('key', None)
+    session.pop('oauth_token', None)
+    session.clear()
+    flash('Logged out successfully!', 'success')
+    return redirect(url_for('homepage'))
 
