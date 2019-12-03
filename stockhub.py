@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, session, url_for, render_template, flash
-from requests_oauthlib import OAuth2Session
+from requests_oauthlib import OAuth2Session 
 from forms import RegistrationForm, LoginForm
 from requests.auth import HTTPBasicAuth
 import requests
