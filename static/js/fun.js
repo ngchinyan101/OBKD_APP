@@ -57,3 +57,4 @@ $(document).ready(function () {
     var r = $("#eRate").val()
     console.log(r)
 })
+
