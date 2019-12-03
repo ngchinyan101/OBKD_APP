@@ -52,6 +52,16 @@ def cryptocurrencyindex():
     session_var_value = session.get('key')
     return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
 
+@app.route("/gold", methods=["GET"])
+def gold(): 
+    session_var_value = session.get('key')
+    return render_template('gold.html', title='Gold', ses=session_var_value)
+
+@app.route("/silver", methods=["GET"])
+def silver(): 
+    session_var_value = session.get('key')
+    return render_template('silver.html', title='Silver', ses=session_var_value)
+
 if __name__ == '___main__': 
     app.run(debug=True)
 
