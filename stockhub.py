@@ -46,6 +46,11 @@ def crudeoil():
     session_var_value = session.get('key')
     return render_template('crudeoil.html', title='Crude Oil', ses=session_var_value)
 
+@app.route("/cryptocurrencyindex", methods=["GET"])
+def cryptocurrencyindex(): 
+    session_var_value = session.get('key')
+    return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
+
 if __name__ == '___main__': 
     app.run(debug=True)
 

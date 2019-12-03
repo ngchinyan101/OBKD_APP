@@ -8,7 +8,7 @@
         <h4><b>Currency Rate Ticker:</b> {{ lCode }}</h4>
         <h4><b>From Currency:</b> {{ lFromCode }} ({{ lFromName }})</h4>
         <h4><b>To Currency:</b> {{ lToCode }} ({{ lToName}})</h4>
-        <h4><b>Exchange Rate:</b> {{ lRate }}</h4>
+        <h4 ><b>Exchange Rate:</b> <b id="lRate">{{ lRate }}</b ></h4>
         <h4><b>Date and time:</b> {{ lTime }}</h4>
 
         <button type="button" id="buybtn"
@@ -36,7 +36,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                <a href="/cryptocurrencyindex"><button type="button" class="btn btn-primary">Save changes</button></a>
                 </div>
             </div>
         </div>
