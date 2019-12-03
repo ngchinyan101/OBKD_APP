@@ -2,25 +2,6 @@
 
 {% block content %}
 
-{% if fFirstName %}
 
-<body>
-    <h1>Welcome {{ fFirstName }} (Internal FIDOR ID:{{ fID }})</h1>
-    <br>
-    <h2>FIDOR Bank Account ({{ fAccountNo }}) - Balance $ {{ fBalance }}</h2>
-    <br>
-    <h2><u>Banking Menu</u></h2>
-    <a href="bank_transfer">
-        <h2>Bank Transfer</h2>
-    </a><br>
-</body>
-
-{% else %}
-
-<body>
-    <h1>No customers details</h1>
-    <a href="index">back to index</a>
-</body>
-{% endif %}
 
 {% endblock content %}

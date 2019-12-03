@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, session, url_for, render_template, flash
-from requests_oauthlib import OAuth2Session 
+from requests_oauthlib import OAuth2Session
 from forms import RegistrationForm, LoginForm
 from requests.auth import HTTPBasicAuth
 import requests
@@ -47,11 +47,36 @@ def crudeoil():
     session_var_value = session.get('key')
     return render_template('crudeoil.html', title='Crude Oil', ses=session_var_value)
 
-
+@app.route("/cryptocurrencyindex", methods=["GET"])
+def cryptocurrencyindex(): 
+    session_var_value = session.get('key')
+    return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
 
 if __name__ == '___main__': 
     app.run(debug=True)
 
+@app.route("/callback", methods=["GET"])
+def callback():
+
+    try:
+        fidor = OAuth2Session(state=session['oauth_state'])
+
+        authorizationCode = request.args.get('code')
+        body = 'grant_type="authorization_code&code='+authorizationCode + \
+        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
+        auth = HTTPBasicAuth(client_id, client_secret)
+        token = fidor.fetch_token(token_url, auth=auth,
+                                  code=authorizationCode, body=body, method='POST')
+
+        session['oauth_token'] = token
+
+        session['key'] = 'loggedin'
+
+        return redirect(url_for('.profile'))
+
+    except:
+        print('Error Occured')
+        return redirect(url_for('.homepage'))
 
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
@@ -277,71 +302,3 @@ def logout():
     flash('Logged out successfully!', 'success')
     return redirect(url_for('homepage'))
 
-@app.route("/callback", methods=["GET"])
-def callback():
-
-    try:
-        fidor = OAuth2Session(state=session['oauth_state'])
-
-        authorizationCode = request.args.get('code')
-        body = 'grant_type="authorization_code&code='+authorizationCode + \
-        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
-        auth = HTTPBasicAuth(client_id, client_secret)
-        token = fidor.fetch_token(token_url, auth=auth,
-                                  code=authorizationCode, body=body, method='POST')
-
-        session['oauth_token'] = token
-
-        session['key'] = 'loggedin'
-
-        return redirect(url_for('.profile'))
-
-    except:
-        print('Error Occured')
-        return redirect(url_for('.home_page'))
-
-
-@app.route('/index', methods=["GET"])
-def default():
-
-    # step 1: user application authorization
-    # sending authorization client ID and client Secret to Fidor for authorization
-    fidor = OAuth2Session(client_id, redirect_uri=redirect_uri)
-    authorization_url, state = fidor.authorization_url(authorization_base_url)
-    # state is used to prevent CSRF, keep this for later.
-    session['oauth_state'] = state
-    print("authorization URL is = " + authorization_url)
-    return redirect(authorization_url)
-
-@app.route("/crytocurrencyindex", methods=["GET"])
-def cryptocurrencyindex():
-
-    session_var_value = session.get('key')
-
-    # fetching a protected resource using an OAuth 2 token.
-    try:
-        token = session['oauth_token']
-        url = "https://api.tp.sandbox.fidor.com/accounts"
-
-        payload = ""
-        headers = {
-            'Accept': "application/vnd.fidor.de;version=1;text/json",
-            'Authorization': "Bearer "+token["access_token"],
-            'Cache-Control': "no-cache",
-            'Postman-Token': "596cc200-d758-44c3-a1a4-7f85e02c4e7d,05aa4fbe-cf69-4b78-97f3-0a21eb2115cb",
-        }
-
-        response = requests.request("GET", url, data=payload, headers=headers)
-        print("services= " + response.text)
-        customersAccount = json.loads(response.text)
-        customerDetails = customersAccount['data'][0]
-        customerInformation = customerDetails['customers'][0]
-        session['fidor_customer'] = customersAccount
-
-        return render_template('cryptocurrencyindex.html', fID=customerInformation["id"],
-                               fFirstName=customerInformation["first_name"],
-                               fAccountNo=customerDetails["account_number"], fBalance=(customerDetails["balance"]/100),  title='Purchase of Cryptocurrency', ses=session_var_value)
-
-    except KeyError:
-        print("Key error in services-to return back to index")
-        return redirect(url_for('default'))
