@@ -1,25 +1,47 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-12 blog-main">
-          <h3 class="pb-4 mb-4 font-italic border-bottom">
-            Check Out the Latest Rate of Crytocurrencies
-          </h3>
+<div class="row">
+  <div class="col-md-12 blog-main">
+    <h3 class="pb-4 mb-4 font-italic border-bottom">
+      Check Out the Latest Rate of Crytocurrencies
+    </h3>
 
-          <a class="row">
-            <div class="column" >
-              <a href="/bitcoin" style="color: black;"><img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/05/04/15/bitcoin-price-latest-news-update.jpg" height='200' alt="Snow" style="width:100%">
-              <div class="picturetitle">Bitcoin</div></a>
-            </div>
-            <div class="column">
-              <a href="/litecoin" style="color: black;"><img src="https://bitcoinexchangeguide.com/wp-content/uploads/2018/12/60-of-the-Total-Supply-of-Litecoin-was-Just-Moved-in-a-Mysterious-Transaction.jpg" height='200' alt="Forest" style="width:100%">
-              <div class="picturetitle">Litecoin</div></a>
-            </div>
-            <div class="column">
-              <a href="/ethereum" style="color: black;"><img src="https://libertex.com/sites/lbxcom/files/778614103-min.jpg" height='200' alt="Mountains" style="width:100%">
-              <div class="picturetitle">Ethereum</div></a>
-            </div>
-          </div>
+    <a class="row">
+      <div class="column">
+        <a href="/bitcoin" style="color: black;"><img
+            src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/05/04/15/bitcoin-price-latest-news-update.jpg"
+            height='200' alt="Snow" style="width:100%">
+          <div class="picturetitle">Bitcoin</div>
+        </a>
+      </div>
+      <div class="column">
+        <a href="/litecoin" style="color: black;"><img
+            src="https://bitcoinexchangeguide.com/wp-content/uploads/2018/12/60-of-the-Total-Supply-of-Litecoin-was-Just-Moved-in-a-Mysterious-Transaction.jpg"
+            height='200' alt="Forest" style="width:100%">
+          <div class="picturetitle">Litecoin</div>
+        </a>
+      </div>
+      <div class="column">
+        <a href="/ethereum" style="color: black;"><img src="https://libertex.com/sites/lbxcom/files/778614103-min.jpg"
+            height='200' alt="Mountains" style="width:100%">
+          <div class="picturetitle">Ethereum</div>
+        </a>
+      </div>
+  </div>
 
-{% endblock content %}
+  <div class="col-md-12 blog-main">
+    <h3 class="pb-4 mb-4 font-italic border-bottom">
+      News on Cryptocurrencies 
+    </h3>
+
+    <a class="row">
+      <div class="column">
+        <a href="/bitcoinnews" style="color: black;"><img
+            src="https://cdn.images.express.co.uk/img/dynamic/22/590x/Bitcoin-price-crash-BTC-cryptocurrency-news-USD-13-billion-1029981.jpg?r=1539267607354"
+            height='200' alt="Snow" style="width:100%">
+          <div class="picturetitle">Bitcoin News</div>
+        </a>
+      </div>
+
+    {% endblock content %}

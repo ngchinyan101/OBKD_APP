@@ -137,6 +137,10 @@ def bitcoinresult():
 
     return render_template('bitcoin_rate.html', title='Bitcoin Rate',bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName ,bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
 
+@app.route('/bitcoinnews', methods=['GET'])
+def bitcoinnews():
+    session_var_value = session.get('key')
+    return render_template('bitcoinnews.html', title='Bitcoin News', ses=session_var_value)
 
 # litecoin section
 @app.route('/litecoin', methods=['GET'])
