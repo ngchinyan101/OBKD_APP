@@ -423,7 +423,7 @@ def crudeoilrate():
     tr2 = tr.pop(0)
 
 
-    return render_template('crudeoil_rate.html', table=tr1, table1=tr2)
+    return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=tr2)
 
 
 #gold section
@@ -461,7 +461,7 @@ def gold():
     europm = table[6]
     # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
 
-    return render_template('gold.html', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm)
+    return render_template('gold.html', title='gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm)
 
 #silver section
 @app.route('/silver', methods=['GET'])
@@ -494,6 +494,6 @@ def silver():
     gbp=table[2]
     euro=table[3]
 
-    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro)
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver')
 
     # print(response.text)
