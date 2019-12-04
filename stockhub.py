@@ -55,15 +55,15 @@ def cryptocurrencyindex():
     session_var_value = session.get('key')
     return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
 
-@app.route("/gold", methods=["GET"])
-def gold(): 
-    session_var_value = session.get('key')
-    return render_template('gold.html', title='Gold', ses=session_var_value)
+# @app.route("/gold", methods=["GET"])
+# def gold(): 
+#     session_var_value = session.get('key')
+#     return render_template('gold.html', title='Gold', ses=session_var_value)
 
-@app.route("/silver", methods=["GET"])
-def silver(): 
-    session_var_value = session.get('key')
-    return render_template('silver.html', title='Silver', ses=session_var_value)
+# @app.route("/silver", methods=["GET"])
+# def silver(): 
+#     session_var_value = session.get('key')
+#     return render_template('silver.html', title='Silver', ses=session_var_value)
 
 if __name__ == '___main__': 
     app.run(debug=True)
@@ -373,7 +373,7 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-
+#crudeoil section
 @app.route('/crudeoil_rate', methods=["GET", "POST"])
 def crudeoilrate():
     error = None
@@ -411,3 +411,75 @@ def crudeoilrate():
 
     return render_template('crudeoil_rate.html', table=tr1, table1=tr2)
 
+
+#gold section
+@app.route('/gold', methods=['GET'])
+def gold():
+    error = None
+
+    url = "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json"
+
+    querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.18.0",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "1bd63ecd-89ed-4e17-a833-a9682a75597d,6a1047bb-f1d1-41fd-b97c-78b28c947cbd",
+        'Host': "www.quandl.com",
+        'Accept-Encoding': "gzip, deflate",
+        'Cookie': "__cfduid=dc38cef7ba8473abba1fc55e60eeffe351571885997",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    gold = json.loads(response.text)
+    table = gold["dataset"]["data"][0]
+
+    date = table[0]
+    usdam = table[1]
+    usdpm = table[2]
+    gbpam = table[3]
+    gbppm = table[4]
+    euroam = table[5]
+    europm = table[6]
+    # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
+
+    return render_template('gold.html', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm)
+
+#silver section
+@app.route('/silver', methods=['GET'])
+def silver():
+    error = None
+
+    url = "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json"
+
+    querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.18.0",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "314692fe-37c7-41c9-9571-fafded1e3c62,802c7215-5930-4788-83e3-af33e0f0607c",
+        'Host': "www.quandl.com",
+        'Accept-Encoding': "gzip, deflate",
+        'Cookie': "__cfduid=dc38cef7ba8473abba1fc55e60eeffe351571885997",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    silver = json.loads(response.text)
+    table = silver["dataset"]["data"][0]
+
+    date=table[0]
+    usd=table[1]
+    gbp=table[2]
+    euro=table[3]
+
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro)
+
+    # print(response.text)
