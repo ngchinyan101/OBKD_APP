@@ -436,6 +436,7 @@ def gold():
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     gold = json.loads(response.text)
+<<<<<<< Updated upstream
     table = gold["dataset"]["data"][0]
 
     date = table[0]
@@ -483,3 +484,8 @@ def silver():
     return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro)
 
     # print(response.text)
+=======
+    table1 = gold["dataset"]["data"]
+
+    return render_template('gold.html', table1=table1)
+>>>>>>> Stashed changes
