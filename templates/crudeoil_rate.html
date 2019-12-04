@@ -8,16 +8,22 @@
 
 <div id="formcenter">
 <h2 id="title"><u>Latest Crude Oil Price</u></h2>
-    <h4><b>Latest Price:</b> SGD${{ cCode }}</h4>
+    <h4><b>Latest Price:</b> SGD$<b id="cRate">{{ cCode }}</b></h4>
     <h4><b>Date:</b> {{ table }} </h4>
     <h4><b>Name:</b>{{name}}</h4>
     <h4><b>Description:</b> {{desc}}</h4>
     <h4><b>Last Refreshed:</b> {{lastref}}</h4>
-    <br>
-    <br>
+
     <br>  
     {% if cCode %}
     <b><h4>Conversion rate from USD to SGD is at {{covert}} as of {{date}}</h4></b>
+
+    <button type="button" id="buybtn"
+    onclick="crudeoil()"  style="align-items: center;">
+        Buy Crude Oil Stocks
+    </button>
+
+
     {%else%}
     <div id="formcenter">
         <h1> No rate data</h1>
@@ -26,9 +32,27 @@
 
 </div>
 
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Buy Crude Oil Stock</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <input id="cValue">
+        <input id="cInput">
+        <label id="cresult"></label>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="/services"><button type="button" class="btn btn-primary">Buy</button></a>
+        </div>
+    </div>
 </div>
-
-
+</div>
 
 {% endblock content %}

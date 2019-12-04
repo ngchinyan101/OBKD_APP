@@ -99,3 +99,84 @@ $(document).ready(function () {
     var r = $("#sRate").val()
     console.log(r)
 })
+
+// crude oil
+
+function crudeoil() {
+    $('#exampleModal').modal('show')
+    var r = $("#cRate").text()
+    $('#cValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#cInput').on('input', function() {
+        var unit = parseFloat($('#cInput').val())
+        var tr = parseFloat($('#cValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#cresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#cRate").val()
+    console.log(r)
+})
+
+// dbs 
+function dbs() {
+    $('#exampleModal').modal('show')
+    var r = $("#dbsRate").text()
+    $('#dbsValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#dbsInput').on('input', function() {
+        var unit = parseFloat($('#dbsInput').val())
+        var tr = parseFloat($('#dbsValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#dbsresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#dbsRate").val()
+    console.log(r)
+})
+
+// ocbc
+function ocbc() {
+    $('#exampleModal').modal('show')
+    var r = $("#ocbcRate").text()
+    $('#ocbcValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#ocbcInput').on('input', function() {
+        var unit = parseFloat($('#ocbcInput').val())
+        var tr = parseFloat($('#ocbcValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#ocbcresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#ocbcRate").val()
+    console.log(r)
+})
+
+// uob
+function uob() {
+    $('#exampleModal').modal('show')
+    var r = $("#uobRate").text()
+    $('#uobValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#uobInput').on('input', function() {
+        var unit = parseFloat($('#uobInput').val())
+        var tr = parseFloat($('#uobValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#uobresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#uobRate").val()
+    console.log(r)
+})

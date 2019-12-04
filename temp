@@ -174,6 +174,7 @@ def bitcoinresult():
 def DBS():
 
     session_var_value = session.get('key')
+
     error = None
     api_key = '7Y1YUNF6P6UQA11Q'
     url = "https://www.alphavantage.co/query"

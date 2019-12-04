@@ -1,17 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div id="formcenter">
-        <h2><b>Latest Silver Prices</b></h2>
-        <h3><b>Date :</b> {{date}}</h3>
-        <br>
-        <h3><b>USD :</b> {{usd}}<span style="margin-left:3em"><b>SGD Equivalent :</b> {{usd1}}</h3></span>
-        <br>
-        <h3><b>GBP :</b> {{gbp}}</h3>
-        <br>
-        <h3><b>EURO :</b> {{euro}}</h3>
-    </div>
+<div id="formcenter">
+    <h2><b>Latest Silver Prices</b></h2>
+    <h3><b>Date :</b> {{date}}</h3>
+    <br>
+    <h3><b>USD :</b> {{usd}}<span style="margin-left:3em"><b>SGD Equivalent :</b> {{usd1}}</h3></span>
+    <br>
+    <h3><b>GBP :</b> {{gbp}}</h3>
+    <br>
+    <h3><b>EURO :</b> {{euro}}</h3>
 
-    <a href="preciousmetal">Back to Precious Metals</a>
+    <p>
+        <a href="/services"><button class="w3-button w3-white w3-border w3-border-red w3-round-large">Buy</button></a>
+    </p>
+</div>
+
+<a href="preciousmetal">Back to Precious Metals</a>
 
 {% endblock content %}
