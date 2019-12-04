@@ -782,3 +782,102 @@ def process():
 
         transactionDetails = json.loads(response.text)
         return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
+
+#CAD----------------------------------------------------------------------------------------------
+
+@app.route('/cad', methods=['GET', 'POST'])
+def cad():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'D0KQHW0HWELG9SJ2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function":"FX_INTRADAY","from_symbol":"CAD","to_symbol":"SGD","interval":"5min","apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "296f615c-e7dc-420b-9c43-62fb8a164be6,fed471ab-c8bc-4821-8247-1ffaa773f1b2",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    CadData = json.loads(response.text)
+    lastRefreshedDate = CadData["Meta Data"]["4. Last Refreshed"]
+    latestStockPrices = CadData["Time Series FX (5min)"][lastRefreshedDate]
+    CadCode = CadData["Meta Data"]["2. From Symbol"]
+    SgdCode = CadData["Meta Data"]["3. To Symbol"]
+    closingPrice = latestStockPrices["4. close"]
+
+    return render_template('cad.html', title='CAD/SGD', bCode=CadCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 
+
+#USD-------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route('/usd', methods=['GET', 'POST'])
+def usd():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'D0KQHW0HWELG9SJ2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function":"FX_INTRADAY","from_symbol":"USD","to_symbol":"SGD","interval":"5min","apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "e3a14a6c-5a65-4ff3-ad99-ef720f0556d8,39b8ed83-b784-4889-9c88-be5e8694837d",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    UsdData = json.loads(response.text)
+    lastRefreshedDate = UsdData["Meta Data"]["4. Last Refreshed"]
+    latestStockPrices = UsdData["Time Series FX (5min)"][lastRefreshedDate]
+    UsdCode = UsdData["Meta Data"]["2. From Symbol"]
+    SgdCode = UsdData["Meta Data"]["3. To Symbol"]
+    closingPrice = latestStockPrices["4. close"]
+
+    return render_template('usd.html', title='USD/SGD', bCode=UsdCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 
+
+#JPY-------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route('/jpy', methods=['GET', 'POST'])
+def jpy():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'D0KQHW0HWELG9SJ2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function":"FX_INTRADAY","from_symbol":"JPY","to_symbol":"SGD","interval":"5min","apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "57627c5a-30f9-4d4e-aa56-ce0396fb7053,1049b3b4-2a48-44e0-bfd6-39230a185547",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    JpyData = json.loads(response.text)
+    lastRefreshedDate = JpyData["Meta Data"]["4. Last Refreshed"]
+    latestStockPrices = JpyData["Time Series FX (5min)"][lastRefreshedDate]
+    JpyCode = JpyData["Meta Data"]["2. From Symbol"]
+    SgdCode = JpyData["Meta Data"]["3. To Symbol"]
+    closingPrice = latestStockPrices["4. close"]
+
+    return render_template('jpy.html', title='JPY/SGD', bCode=JpyCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if bCode %}
+    <div id="formcenter">
+        <h2 id="title"><u>Latest JPY/SGD Price</u></h2>
+        <h4><b>From Stock Ticker:</b> {{ bCode }}</h4>
+        <h4><b>To Stock Ticker:</b> {{ cCode }}</h4>
+        <h4><b>Closing Stock Price: </b><b id="jpyRate">{{ bPrice }}</b></h4>
+        <h4><b>Date and time:</b> {{ bTime }}</h4>
+    
+        <button type="button" id="buybtn"
+        onclick="Jpy()"  style="align-items: center;">
+            Trade JPY/SGD 
+        </button>
+
+    </div>
+
+    <a href="fx">Back to Foreign Exchange</a>
+    
+    <br>
+
+
+
+    {% else %}
+    <div id="formcenter">
+        <h1>No rate data</h1>
+    </div>
+
+    <a href="fx">Back to Foreign Exchange</a>
+    
+    {% endif %}
+
+
+{% endblock content %}
