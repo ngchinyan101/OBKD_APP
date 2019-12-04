@@ -323,6 +323,8 @@ def profile():
         token = session['oauth_token']
         # get accounts details url
         url = "https://api.tp.sandbox.fidor.com/accounts"
+        urlTransfer = "https://api.tp.sandbox.fidor.com/transactions"
+        url2 = "https://api.tp.sandbox.fidor.com/internal_transfers"
         
         payload = ""
         headers = {
@@ -334,6 +336,8 @@ def profile():
 
         # accounts details response
         response = requests.request("GET", url, data=payload, headers=headers)
+        response1 = requests.request("GET", urlTransfer, data=payload, headers=headers)
+        response2 = requests.request("GET", url2, data=payload, headers=headers)
 
         # if (trans == trans): 
         #     print(trans)
@@ -341,6 +345,15 @@ def profile():
         # print(top_headlines)
         # your current token
         print(token)
+
+        # transfer history response
+        receivedHistory = json.loads(response2.text)
+        reiHis = receivedHistory['data']
+        
+
+        # internal history response
+        transferHistory = json.loads(response1.text)
+        transferH = transferHistory['data']
         
         customersAccount = json.loads(response.text)
         customerDetails = customersAccount['data'][0]
@@ -351,7 +364,8 @@ def profile():
                                fFirstName=customerInformation["first_name"], 
                                fAccountNo=customerDetails["account_number"], fBalance=(
                                    customerDetails["balance"]),
-                               fEmailAccount=customerInformation["email"], ses=session_var_value)
+                               fEmailAccount=customerInformation["email"], ses=session_var_value, posts=transferH
+                               , reci=reiHis)
 
     except KeyError:
         # if token expired...
