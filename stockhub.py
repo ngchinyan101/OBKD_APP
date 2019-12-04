@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, session, url_for, render_template, f
 from requests_oauthlib import OAuth2Session
 from forms import RegistrationForm, LoginForm
 from requests.auth import HTTPBasicAuth
-from newsapi import NewsApiClient
+from newsapi.newsapi_client import NewsApiClient
 import requests
 import json
 
