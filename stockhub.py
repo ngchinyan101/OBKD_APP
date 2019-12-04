@@ -8,7 +8,7 @@ import json
 
 app = Flask(__name__)
 
-app.config['SESSION_TYPE']='memcached'
+app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = '031e8b93c90984f2c4a8bf0d0b7b3360'
 
 client_id = "8d7f7404c85cca13"
@@ -19,39 +19,46 @@ redirect_uri = 'http://localhost:5000/callback'
 
 newsapi = NewsApiClient(api_key='158a2c8a3e7b4f7daab8bc350178c1a3')
 
+
 @app.route("/")
 @app.route("/homepage")
 def homepage():
     session_var_value = session.get('key')
     return render_template('home_page.html', title='Home', ses=session_var_value)
 
+
 @app.route("/sgequities", methods=["GET"])
 def sgequities():
     session_var_value = session.get('key')
     return render_template('sgequities.html', title='SG Equities', ses=session_var_value)
+
 
 @app.route("/fx", methods=["GET"])
 def fx():
     session_var_value = session.get('key')
     return render_template('fx.html', title='Foreign Exchange', ses=session_var_value)
 
+
 @app.route("/cryptocurrency", methods=["GET"])
 def cryptocurrency():
     session_var_value = session.get('key')
     return render_template('cryptocurrency.html', title='Crptocurrency', ses=session_var_value)
 
+
 @app.route("/preciousmetal", methods=["GET"])
 def preciousmetal():
     session_var_value = session.get('key')
-    return render_template('preciousmetal.html', title='Precious Metal',ses=session_var_value)
+    return render_template('preciousmetal.html', title='Precious Metal', ses=session_var_value)
+
 
 @app.route("/crudeoil", methods=["GET"])
-def crudeoil(): 
+def crudeoil():
     session_var_value = session.get('key')
     return render_template('crudeoil.html', title='Crude Oil', ses=session_var_value)
 
+
 @app.route("/cryptocurrencyindex", methods=["GET"])
-def cryptocurrencyindex(): 
+def cryptocurrencyindex():
     session_var_value = session.get('key')
     return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
 
@@ -65,8 +72,10 @@ def cryptocurrencyindex():
 #     session_var_value = session.get('key')
 #     return render_template('silver.html', title='Silver', ses=session_var_value)
 
-if __name__ == '___main__': 
+
+if __name__ == '___main__':
     app.run(debug=True)
+
 
 @app.route("/callback", methods=["GET"])
 def callback():
@@ -76,7 +85,7 @@ def callback():
 
         authorizationCode = request.args.get('code')
         body = 'grant_type="authorization_code&code='+authorizationCode + \
-        '&redirect_uri='+redirect_uri+'&client_id=' + client_id
+            '&redirect_uri='+redirect_uri+'&client_id=' + client_id
         auth = HTTPBasicAuth(client_id, client_secret)
         token = fidor.fetch_token(token_url, auth=auth,
                                   code=authorizationCode, body=body, method='POST')
@@ -99,7 +108,8 @@ def bitcoin():
 
     return render_template('bitcoin.html', title='Bitcoin', ses=session_var_value)
 
-@app.route('/bitcoinresult',methods=['GET', 'POST'])
+
+@app.route('/bitcoinresult', methods=['GET', 'POST'])
 def bitcoinresult():
     error = None
     if request.method == "POST":
@@ -108,20 +118,22 @@ def bitcoinresult():
 
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"BTC","to_currency":"SGD","apikey":api_key}
+        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                       "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",
             'Accept': "*/*",
             'Cache-Control': "no-cache",
-            'Postman-Token': "1a946e81-6378-4645-8c4d-3abca68a620a,3d69d650-638a-4903-8350-44a6118afa4e",
+            'Postman-Token': "80da5e82-2870-483c-808e-fadd5e500863,12e05540-db9d-4a5f-bed7-f6cbbaacf1e5",
             'Host': "www.alphavantage.co",
             'Accept-Encoding': "gzip, deflate",
             'Connection': "keep-alive",
             'cache-control': "no-cache"
-            }
-    
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        }
+
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
 
         bitcoinData = json.loads(response.text)
 
@@ -136,64 +148,173 @@ def bitcoinresult():
         lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-        
 
-    return render_template('bitcoin_rate.html', title='Bitcoin Rate',bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName ,bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
+    return render_template('bitcoin_rate.html', title='Bitcoin Rate', bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName, bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
+
+#----------------- DBS ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+@app.route('/DBS', methods=['GET', 'POST'])
+def DBS():
+    error = None
+    api_key = '7Y1YUNF6P6UQA11Q'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "D05.SI", "interval": "5min", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "1a946e81-6378-4645-8c4d-3abca68a620a,3d69d650-638a-4903-8350-44a6118afa4e",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    DBSData = json.loads(response.text)
+    lastRefreshedDate = DBSData["Meta Data"]["3. Last Refreshed"]
+    latestStockPrices = DBSData["Time Series (5min)"][lastRefreshedDate]
+    DBSCode = 'D05.SI'
+    closingPrice = latestStockPrices["4. close"]
+    volume = latestStockPrices["5. volume"]
+
+    return render_template('DBS.html', title='DBS Price', bCode=DBSCode, bPrice=closingPrice, bVolume=volume, bTime=lastRefreshedDate)
+
+#----------------- UOB ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+@app.route('/UOB', methods=['GET', 'POST'])
+def UOB():
+    error = None
+    api_key = '7Y1YUNF6P6UQA11Q'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "U11.SI", "interval": "5min", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "1a946e81-6378-4645-8c4d-3abca68a620a,3d69d650-638a-4903-8350-44a6118afa4e",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    DBSData = json.loads(response.text)
+    lastRefreshedDate = DBSData["Meta Data"]["3. Last Refreshed"]
+    latestStockPrices = DBSData["Time Series (5min)"][lastRefreshedDate]
+    UOBCode = 'U11.SI'
+    closingPrice = latestStockPrices["4. close"]
+    volume = latestStockPrices["5. volume"]
+
+    return render_template('UOB.html', title='UOB Price', bCode=UOBCode, bPrice=closingPrice, bVolume=volume, bTime=lastRefreshedDate)
+
+#----------------- OCBC ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+@app.route('/OCBC', methods=['GET', 'POST'])
+def OCBC():
+    error = None
+    api_key = '7Y1YUNF6P6UQA11Q'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "O39.SI", "interval": "5min", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "1a946e81-6378-4645-8c4d-3abca68a620a,3d69d650-638a-4903-8350-44a6118afa4e",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    DBSData = json.loads(response.text)
+    lastRefreshedDate = DBSData["Meta Data"]["3. Last Refreshed"]
+    latestStockPrices = DBSData["Time Series (5min)"][lastRefreshedDate]
+    OCBCCode = 'O39.SI'
+    closingPrice = latestStockPrices["4. close"]
+    volume = latestStockPrices["5. volume"]
+
+    return render_template('OCBC.html', title='OCBC Price', bCode=OCBCCode, bPrice=closingPrice, bVolume=volume, bTime=lastRefreshedDate)
+
 
 @app.route('/bitcoinnews', methods=['GET'])
 def bitcoinnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='bitcoin', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='bitcoin', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('bitcoinnews.html', title='Bitcoin News', ses=session_var_value, news=news)
 
-    
+
 @app.route('/litecoinnews', methods=['GET'])
 def litecoinnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='litecoin', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='litecoin', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('litecoinnews.html', title='Litecoin News', ses=session_var_value, news=news)
+
 
 @app.route('/ethereumnews', methods=['GET'])
 def ethereumnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='ethereum', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='ethereum', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('ethereumnews.html', title='Ethereum News', ses=session_var_value, news=news)
+
 
 @app.route('/equitiesnews', methods=['GET'])
 def equitiesnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='equities', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='equities', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('equitiesnews.html', title='Equities News', ses=session_var_value, news=news)
+
 
 @app.route('/forexnews', methods=['GET'])
 def forexnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='forex', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='forex', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('forexnews.html', title='Forex News', ses=session_var_value, news=news)
+
 
 @app.route('/currencynews', methods=['GET'])
 def currencynews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='currency', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='currency', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('currencynews.html', title='Currency News', ses=session_var_value, news=news)
+
 
 @app.route('/metalnews', methods=['GET'])
 def metalnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='metals', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='metals', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('metalnews.html', title='Metals News', ses=session_var_value, news=news)
+
 
 @app.route('/oilnews', methods=['GET'])
 def oilnews():
     session_var_value = session.get('key')
-    top_headlines = newsapi.get_everything(q='crude-oil', language='en', page_size=15)
+    top_headlines = newsapi.get_everything(
+        q='crude-oil', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('oilnews.html', title='Oil News', ses=session_var_value, news=news)
 
@@ -203,7 +324,8 @@ def litecoin():
     session_var_value = session.get('key')
     return render_template('litecoin.html', title='Litecoin', ses=session_var_value)
 
-@app.route('/litecoinresult',methods=['GET', 'POST'])
+
+@app.route('/litecoinresult', methods=['GET', 'POST'])
 def litecoinresult():
     error = None
     if request.method == "POST":
@@ -212,7 +334,8 @@ def litecoinresult():
 
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"LTC","to_currency":"SGD","apikey":api_key}
+        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                       "from_currency": "LTC", "to_currency": "SGD", "apikey": api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",
@@ -223,10 +346,10 @@ def litecoinresult():
             'Accept-Encoding': "gzip, deflate",
             'Connection': "keep-alive",
             'cache-control': "no-cache"
-            }
-    
+        }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
 
         litecoinData = json.loads(response.text)
 
@@ -241,7 +364,6 @@ def litecoinresult():
         lastRefreshedLitecoinDate = litecoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeLitecoinRate = litecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-        
 
     return render_template('litecoin_rate.html', title='Litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
 
@@ -252,17 +374,18 @@ def ethereum():
     session_var_value = session.get('key')
     return render_template('ethereum.html', title='Ethereum', ses=session_var_value)
 
-@app.route('/ethereumresult',methods=['GET', 'POST'])
+
+@app.route('/ethereumresult', methods=['GET', 'POST'])
 def ethereumresult():
     error = None
     if request.method == "POST":
         ethereumCode = request.form['ethereumSymbol']
         api_key = 'Y0N5J0ZJLKJACDU2'
 
-
         url = "https://www.alphavantage.co/query"
 
-        querystring = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"ETH","to_currency":"SGD","apikey":api_key}
+        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                       "from_currency": "ETH", "to_currency": "SGD", "apikey": api_key}
 
         headers = {
             'User-Agent': "PostmanRuntime/7.20.1",
@@ -273,10 +396,10 @@ def ethereumresult():
             'Accept-Encoding': "gzip, deflate",
             'Connection': "keep-alive",
             'cache-control': "no-cache"
-            }
-    
+        }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
 
         ethereumData = json.loads(response.text)
 
@@ -291,13 +414,13 @@ def ethereumresult():
         lastRefreshedEthereumDate = ethereumData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
         latestExchangeEthereumRate = ethereumData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-        
 
     return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate)
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    
+
     print('login')
     form = LoginForm()
     if form.validate_on_submit():
@@ -305,13 +428,15 @@ def login():
             flash('You have been logged in!', 'success')
 
             fidor = OAuth2Session(client_id, redirect_uri=redirect_uri)
-            authorization_url, state = fidor.authorization_url(authorization_base_url)
+            authorization_url, state = fidor.authorization_url(
+                authorization_base_url)
             session['oauth_state'] = state
             print("authorization URL is =" + authorization_url)
-            return redirect(authorization_url,url_for('.profile'))
+            return redirect(authorization_url, url_for('.profile'))
         else:
             flash('Invalid username/password. Please try again.', 'danger')
     return render_template('login.html', form=form, title='Login')
+
 
 @app.route("/profile", methods=["GET"])
 def profile():
@@ -323,9 +448,13 @@ def profile():
         token = session['oauth_token']
         # get accounts details url
         url = "https://api.tp.sandbox.fidor.com/accounts"
+<<<<<<< Updated upstream
         urlTransfer = "https://api.tp.sandbox.fidor.com/transactions"
         url2 = "https://api.tp.sandbox.fidor.com/internal_transfers"
         
+=======
+
+>>>>>>> Stashed changes
         payload = ""
         headers = {
             'Accept': "application/vnd.fidor.de;version=1;text/json",
@@ -339,13 +468,14 @@ def profile():
         response1 = requests.request("GET", urlTransfer, data=payload, headers=headers)
         response2 = requests.request("GET", url2, data=payload, headers=headers)
 
-        # if (trans == trans): 
+        # if (trans == trans):
         #     print(trans)
 
         # print(top_headlines)
         # your current token
         print(token)
 
+<<<<<<< Updated upstream
         # transfer history response
         receivedHistory = json.loads(response2.text)
         reiHis = receivedHistory['data']
@@ -355,13 +485,15 @@ def profile():
         transferHistory = json.loads(response1.text)
         transferH = transferHistory['data']
         
+=======
+>>>>>>> Stashed changes
         customersAccount = json.loads(response.text)
         customerDetails = customersAccount['data'][0]
         customerInformation = customerDetails['customers'][0]
         session['fidor_customer'] = customersAccount
 
-        return render_template('profile.html', title='My Profile', fId=customerInformation["id"], 
-                               fFirstName=customerInformation["first_name"], 
+        return render_template('profile.html', title='My Profile', fId=customerInformation["id"],
+                               fFirstName=customerInformation["first_name"],
                                fAccountNo=customerDetails["account_number"], fBalance=(
                                    customerDetails["balance"]),
                                fEmailAccount=customerInformation["email"], ses=session_var_value, posts=transferH
@@ -376,6 +508,7 @@ def profile():
         print("Key error in services-to return back to index")
         return redirect(url_for('login'))
 
+
 @app.route('/logout')
 def logout():
 
@@ -387,7 +520,10 @@ def logout():
     return redirect(url_for('homepage'))
 
 
+<<<<<<< Updated upstream
 #crudeoil section
+=======
+>>>>>>> Stashed changes
 @app.route('/crudeoil_rate', methods=["GET", "POST"])
 def crudeoilrate():
     error = None
@@ -397,24 +533,43 @@ def crudeoilrate():
 
     url1 = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
 
+<<<<<<< Updated upstream
     querystring1 = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
 
 #payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
     headers1 = {
         'Accept': "*/*",
         #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
+=======
+    querystring = {"api_key": "Y5E16RZGMzxsnwQCckVY",
+                   "start_date": "2019-11-30"}
+
+#payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
+    headers = {
+        'Accept': "*/*",
+        # 'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
+>>>>>>> Stashed changes
         'User-Agent': "PostmanRuntime/7.20.1",
         'Cache-Control': "no-cache",
         'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
         'Host': "www.quandl.com",
         'Accept-Encoding': "gzip, deflate",
+<<<<<<< Updated upstream
         #'Content-Length': "88",
+=======
+        # 'Content-Length': "88",
+>>>>>>> Stashed changes
         'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
     }
 
+<<<<<<< Updated upstream
     response1 = requests.request("GET", url1, headers=headers1, params=querystring1)
+=======
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+>>>>>>> Stashed changes
 
     crudeoil = json.loads(response1.text)
     table1 = crudeoil["dataset"]
@@ -465,6 +620,7 @@ def crudeoilrate():
 def gold():
     error = None
 
+<<<<<<< Updated upstream
     url = "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json"
 
     querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
@@ -531,3 +687,6 @@ def silver():
     return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver')
 
     
+=======
+    return render_template('crudeoil_rate.html', table=tr1, table1=tr2)
+>>>>>>> Stashed changes
