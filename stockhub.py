@@ -395,35 +395,69 @@ def crudeoilrate():
     # session_var_value = session.get('key')
     # return render_template('crudeoilrate.html', title='Crude Oil Rate', ses=session_var_value)
 
-    url = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
+    url1 = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
 
-    querystring = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
+    querystring1 = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
 
 #payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
-    headers = {
-    'Accept': "*/*",
-    #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
-    'User-Agent': "PostmanRuntime/7.20.1",
-    'Cache-Control': "no-cache",
-    'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
-    'Host': "www.quandl.com",
-    'Accept-Encoding': "gzip, deflate",
-    #'Content-Length': "88",
-    'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
-    'Connection': "keep-alive",
-    'cache-control': "no-cache"
+    headers1 = {
+        'Accept': "*/*",
+        #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
+        'Host': "www.quandl.com",
+        'Accept-Encoding': "gzip, deflate",
+        #'Content-Length': "88",
+        'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
     }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response1 = requests.request("GET", url1, headers=headers1, params=querystring1)
 
-    crudeoil = json.loads(response.text)
+    crudeoil = json.loads(response1.text)
     table1 = crudeoil["dataset"]
     tr = table1["data"][0]
     tr1 = tr.pop(0)
     tr2 = tr.pop(0)
+    #Converts data from USD to SGD
+    newval = float(tr2)
+
+    nameCrudeOil = crudeoil["dataset"]["name"]
+    descCrudeOil = crudeoil["dataset"]["description"]
+    lastrefCrudeOil = crudeoil["dataset"]["newest_available_date"]
 
 
-    return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=tr2)
+    api_key2 = 'DOJSMQ3ZWF2XI4O2'
+
+    url2 = "https://www.alphavantage.co/query"   
+
+    querystring2 = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"USD","to_currency":"SGD","apikey":api_key2}   
+
+    headers2 = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "f685f542-2182-4a34-8565-645790857291,006c6402-15c2-4bc7-92f8-5bd2aeed2895",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+        }  
+
+    response2 = requests.request("GET", url2, headers=headers2, params=querystring2)
+
+    conversion = json.loads(response2.text)
+    print(conversion)
+    convert = conversion["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+    date = conversion["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+    convert2 = float(convert)
+    conversionrate = convert2 * newval
+
+    return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=newval, name=nameCrudeOil, desc=descCrudeOil, lastref=lastrefCrudeOil,
+                             covert=convert, date=date, cCode=conversionrate)
+
 
 
 #gold section
@@ -454,16 +488,14 @@ def gold():
 
     date = table[0]
     usdam = table[1]
-    usdam1 = usdam * 1.42
     usdpm = table[2]
-    usdpm1 = usdpm * 1.42
     gbpam = table[3]
     gbppm = table[4]
     euroam = table[5]
     europm = table[6]
     # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
 
-    return render_template('gold.html', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, usdam1=usdam1, usdpm1=usdpm1)
+    return render_template('gold.html', title='gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm)
 
 #silver section
 @app.route('/silver', methods=['GET'])
@@ -492,11 +524,10 @@ def silver():
     table = silver["dataset"]["data"][0]
 
     date=table[0]
-    usd = table[1]
-    usd1 = usd * 1.42
-    gbp = table[2]
-    euro = table[3]
+    usd=table[1]
+    gbp=table[2]
+    euro=table[3]
 
-    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, usd1=usd1)
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver')
 
-    # print(response.text)
+    

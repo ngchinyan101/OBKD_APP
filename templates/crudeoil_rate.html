@@ -5,10 +5,30 @@
 <!-- <p>Date : {{table}}</p>
 <p>Latest Price: {{table1}}</p> -->
 
+
 <div id="formcenter">
-    <h2 id="title"><u>Latest Crude Oil Price</u></h2>
-    <h4><b>Latest Price:</b> {{ table1 }}</h4>
+<h2 id="title"><u>Latest Crude Oil Price</u></h2>
+    <h4><b>Latest Price:</b> SGD${{ cCode }}</h4>
     <h4><b>Date:</b> {{ table }} </h4>
+    <h4><b>Name:</b>{{name}}</h4>
+    <h4><b>Description:</b> {{desc}}</h4>
+    <h4><b>Last Refreshed:</b> {{lastref}}</h4>
+    <br>
+    <br>
+    <br>  
+    {% if cCode %}
+    <b><h4>Conversion rate from USD to SGD is at {{covert}} as of {{date}}</h4></b>
+    {%else%}
+    <div id="formcenter">
+        <h1> No rate data</h1>
+    </div>
+    {% endif %}
+
 </div>
+
+
+</div>
+
+
 
 {% endblock content %}
