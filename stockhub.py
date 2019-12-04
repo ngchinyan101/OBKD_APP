@@ -454,14 +454,16 @@ def gold():
 
     date = table[0]
     usdam = table[1]
+    usdam1 = usdam * 1.42
     usdpm = table[2]
+    usdpm1 = usdpm * 1.42
     gbpam = table[3]
     gbppm = table[4]
     euroam = table[5]
     europm = table[6]
     # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
 
-    return render_template('gold.html', title='gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm)
+    return render_template('gold.html', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, usdam1=usdam1, usdpm1=usdpm1)
 
 #silver section
 @app.route('/silver', methods=['GET'])
@@ -490,10 +492,11 @@ def silver():
     table = silver["dataset"]["data"][0]
 
     date=table[0]
-    usd=table[1]
-    gbp=table[2]
-    euro=table[3]
+    usd = table[1]
+    usd1 = usd * 1.42
+    gbp = table[2]
+    euro = table[3]
 
-    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver')
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, usd1=usd1)
 
     # print(response.text)

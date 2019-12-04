@@ -2,12 +2,16 @@
 
 {% block content %}
     <div id="formcenter">
-        <h2><b>Date :</b> {{date}}</h2>
-        <h3><b>USD :</b> {{usd}}</h3>
+        <h2><b>Latest Silver Prices</b></h2>
+        <h3><b>Date :</b> {{date}}</h3>
+        <br>
+        <h3><b>USD :</b> {{usd}}<span style="margin-left:3em"><b>SGD Equivalent :</b> {{usd1}}</h3></span>
         <br>
         <h3><b>GBP :</b> {{gbp}}</h3>
         <br>
         <h3><b>EURO :</b> {{euro}}</h3>
     </div>
+
+    <a href="preciousmetal">Back to Precious Metals</a>
 
 {% endblock content %}
