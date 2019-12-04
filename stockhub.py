@@ -511,7 +511,7 @@ def profile():
         return render_template('profile.html', title='My Profile', fId=customerInformation["id"],
                                fFirstName=customerInformation["first_name"],
                                fAccountNo=customerDetails["account_number"], fBalance=(
-                                   customerDetails["balance"]),
+                                   customerDetails["balance"]/100),
                                fEmailAccount=customerInformation["email"], ses=session_var_value, posts=transferH
                                , reci=reiHis)
 
