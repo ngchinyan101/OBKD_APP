@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if fFirstName %}
+        <body id="formcenter">
+            <h1>Welcome {{ fFirstName }} !!</h1>
+            <br>
+            <h4><b>Your Fidor Bank ID:</b> {{ fID }}</h4> 
+            <br>
+            <h4><b>FIDOR Bank Account:</b> {{ fAccountNo }}</h4>
+            <br>
+            <h4><b>Balance:</b> $ {{ fBalance }}</h4>
+            <br>
+            <a href="bank_transfer"><h2>Bank Transfer</h2></a><br>
+        </body>
+        
+    {% else %}
+        <body>
+            <h1>No customers details</h1>
+            <a href="index">back to index</a>
+        </body>
+    {% endif %}
+
+{% endblock content %}

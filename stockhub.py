@@ -13,6 +13,7 @@ app.config['SECRET_KEY'] = '031e8b93c90984f2c4a8bf0d0b7b3360'
 
 client_id = "8d7f7404c85cca13"
 client_secret = "031e8b93c90984f2c4a8bf0d0b7b3360"
+
 authorization_base_url = 'https://apm.tp.sandbox.fidor.com/oauth/authorize'
 token_url = 'https://apm.tp.sandbox.fidor.com/oauth/token'
 redirect_uri = 'http://localhost:5000/callback'
@@ -41,6 +42,7 @@ def fx():
 
 @app.route("/cryptocurrency", methods=["GET"])
 def cryptocurrency():
+
     session_var_value = session.get('key')
     return render_template('cryptocurrency.html', title='Crptocurrency', ses=session_var_value)
 
@@ -91,6 +93,8 @@ def callback():
                                   code=authorizationCode, body=body, method='POST')
 
         session['oauth_token'] = token
+        
+        return redirect(url_for('.services'))
 
         session['key'] = 'loggedin'
 
@@ -99,6 +103,19 @@ def callback():
     except:
         print('Error Occured')
         return redirect(url_for('.homepage'))
+
+# @app.route("/gold", methods=["GET"])
+# def gold(): 
+#     session_var_value = session.get('key')
+#     return render_template('gold.html', title='Gold', ses=session_var_value)
+
+# @app.route("/silver", methods=["GET"])
+# def silver(): 
+#     session_var_value = session.get('key')
+#     return render_template('silver.html', title='Silver', ses=session_var_value)
+
+if __name__ == '___main__': 
+    app.run(debug=True)
 
 # bitcoin section
 @app.route('/bitcoin', methods=['GET'])
@@ -448,13 +465,9 @@ def profile():
         token = session['oauth_token']
         # get accounts details url
         url = "https://api.tp.sandbox.fidor.com/accounts"
-<<<<<<< Updated upstream
         urlTransfer = "https://api.tp.sandbox.fidor.com/transactions"
         url2 = "https://api.tp.sandbox.fidor.com/internal_transfers"
         
-=======
-
->>>>>>> Stashed changes
         payload = ""
         headers = {
             'Accept': "application/vnd.fidor.de;version=1;text/json",
@@ -475,7 +488,6 @@ def profile():
         # your current token
         print(token)
 
-<<<<<<< Updated upstream
         # transfer history response
         receivedHistory = json.loads(response2.text)
         reiHis = receivedHistory['data']
@@ -485,8 +497,6 @@ def profile():
         transferHistory = json.loads(response1.text)
         transferH = transferHistory['data']
         
-=======
->>>>>>> Stashed changes
         customersAccount = json.loads(response.text)
         customerDetails = customersAccount['data'][0]
         customerInformation = customerDetails['customers'][0]
@@ -520,10 +530,7 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-<<<<<<< Updated upstream
 #crudeoil section
-=======
->>>>>>> Stashed changes
 @app.route('/crudeoil_rate', methods=["GET", "POST"])
 def crudeoilrate():
     error = None
@@ -533,43 +540,24 @@ def crudeoilrate():
 
     url1 = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
 
-<<<<<<< Updated upstream
     querystring1 = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
 
 #payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
     headers1 = {
         'Accept': "*/*",
         #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
-=======
-    querystring = {"api_key": "Y5E16RZGMzxsnwQCckVY",
-                   "start_date": "2019-11-30"}
-
-#payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
-    headers = {
-        'Accept': "*/*",
-        # 'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
->>>>>>> Stashed changes
         'User-Agent': "PostmanRuntime/7.20.1",
         'Cache-Control': "no-cache",
         'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
         'Host': "www.quandl.com",
         'Accept-Encoding': "gzip, deflate",
-<<<<<<< Updated upstream
         #'Content-Length': "88",
-=======
-        # 'Content-Length': "88",
->>>>>>> Stashed changes
         'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
     }
 
-<<<<<<< Updated upstream
     response1 = requests.request("GET", url1, headers=headers1, params=querystring1)
-=======
-    response = requests.request(
-        "GET", url, headers=headers, params=querystring)
->>>>>>> Stashed changes
 
     crudeoil = json.loads(response1.text)
     table1 = crudeoil["dataset"]
@@ -620,7 +608,6 @@ def crudeoilrate():
 def gold():
     error = None
 
-<<<<<<< Updated upstream
     url = "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json"
 
     querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
@@ -686,7 +673,99 @@ def silver():
 
     return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver')
 
-    
-=======
-    return render_template('crudeoil_rate.html', table=tr1, table1=tr2)
->>>>>>> Stashed changes
+
+    # print(response.text)
+
+@app.route('/index', methods=["GET"])
+def default():
+
+    # step 1: user application authorization
+    # sending authorization client ID and client Secret to Fidor for authorization
+    fidor = OAuth2Session(client_id, redirect_uri=redirect_uri)
+    authorization_url, state = fidor.authorization_url(authorization_base_url)
+    # state is used to prevent CSRF, keep this for later.
+    session['oauth_state'] = state
+    print("authorization URL is = " + authorization_url)
+    return redirect(authorization_url)
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route("/services", methods=["GET"])
+def services():
+    # fetching a protected resource using an OAuth 2 token.
+    try:
+        token = session['oauth_token']
+        url = "https://api.tp.sandbox.fidor.com/accounts"
+
+        payload = ""
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Cache-Control': "no-cache",
+            'Postman-Token': "1ec96583-e911-46b1-8004-68a6b4d2013c,993ea015-3e23-42cd-8185-3b6629a0889d",
+        }
+
+        response = requests.request("GET", url, data=payload, headers=headers)
+        print("services= " + response.text)
+        customersAccount = json.loads(response.text)
+        customerDetails = customersAccount['data'][0]
+        customerInformation = customerDetails['customers'][0]
+        session['fidor_customer'] = customersAccount
+
+        return render_template('services.html', title='Payment Menu', fID=customerInformation["id"],
+                               fFirstName=customerInformation["first_name"], fLastName=customerInformation["last_name"],
+                               fAccountNo=customerDetails["account_number"], fBalance=(customerDetails["balance"]/100))
+
+    except KeyError:
+        print("Key error in services-to return back to index")
+        return redirect(url_for('default'))
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route("/bank_transfer", methods=["GET"])
+def transfer():
+    try:
+        customersAccount = session['fidor_customer']
+        customerDetails= customersAccount['data'][0]
+
+        return render_template('internal_transfer.html', fFIDORID=customerDetails["id"],fAccountNo=customerDetails["account_number"], fBalance=(customerDetails["balance"]/100))
+
+    except KeyError:
+        print("Key error in bank_transfer-to return back to index")
+        return redirect(url_for('.index'))
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route("/process", methods=["POST"])
+def process():
+
+    if request.method == "POST":
+        token = session ['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = request.form['customerEmailAdd']
+        transferAmt = int(float(request.form['transferAmount'])*100)
+        transferRemarks = request.form['transferRemarks']
+        transactionID = request.form['transactionID']
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \""+ custEmail+"\", \n\t\"external_uid\": \""+transactionID+"\", \n\t\"amount\": "+ str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+        
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "ce7b9b33-11d5-42e8-ac3f-565035973416,d2836e54-dcb3-41dd-8a12-fb9c8857de5b"
+            }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"])
+

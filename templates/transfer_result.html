@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if fTransactionID %}
+
+        <h1>Bank Transfer Completed (Transaction ID: {{ fTransactionID }})</h1>
+        <br>
+        <h2>SGD ${{ famount }} is transferred to {{ fRecipientName }}</h2><br>
+        <h2>Using Recipient Email : {{ custEmail}}</h2>
+        <br>
+        <h2> Transfer Remark : {{ fRemarks }}</h2><br>
+        <a href="services"><h2>Bank to Main Menu</h2></a><br>
+
+{% else %}
+  
+        <h1>No customers details</h1>
+        <a href="index">back to index</a>
+
+
+{% endif %}
+
+{% endblock content %}

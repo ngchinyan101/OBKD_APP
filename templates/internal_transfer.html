@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+        <h2>FIDOR Bank Account ({{ fAccountNo }}) - Balance $ {{ fBalance }}</h2>
+    <br>
+    <form action="process" method="post">
+        Your FIDOR ID: <input type="text" name="fidorID" value="{{ fFIDORID }}"><br><br>
+        Recipient Email Address: <input type="text" name="customerEmailAdd" value=""><br><br>
+        Transfer Amount SGD$: <input type="text" name="transferAmount" value=""> (Limit to SGD$500)<br><br>
+        Transaction Reference (Any random values): <input type="text" name="transactionID" value=""><br><br>
+        Remarks: <input type="text" name="transferRemarks" value=""><br><br>
+        <input type="submit" value="Submit">
+    </form><br>
+    <a href="services">Main Menu</a><br>
+
+{% endblock content %}
