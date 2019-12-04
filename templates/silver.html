@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<<<<<<< Updated upstream
     <div id="formcenter">
         <h2><b>Date :</b> {{date}}</h2>
         <h3><b>USD :</b> {{usd}}</h3>
@@ -11,61 +10,4 @@
         <h3><b>EURO :</b> {{euro}}</h3>
     </div>
 
-=======
-
-    {% if bCode %}
-    <div id="formcenter">
-        <h2 id="title"><u>Latest Silver Rate Price</u></h2>
-        <h4><b>Currency Rate Ticker:</b> {{ bCode }}</h4>
-        <h4><b>From Currency:</b> {{ bFromCode }} ({{ bFromName }})</h4>
-        <h4><b>To Currency:</b> {{ bToCode }} ({{ bToName}})</h4>
-        <h4 ><b>Exchange Rate:</b> <b id="sRate">{{ bRate }}</b ></h4>
-        <h4><b>Date and time:</b> {{ bTime }}</h4>
-    
-        <button type="button" id="buybtn"
-        onclick="buy()"  style="align-items: center;">
-            Buy Silver
-        </button>
-
-    </div>
-
-    <a href="preciousmetal">Back to Precious Metals Page</a>
-    
-    <br>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Buy Silver</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <input id="sValue">
-                <input id="sInput">
-                <br>
-                <label id="sResult"></label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="/cryptocurrencyindex"><button type="button" class="btn btn-primary">Buy</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% else %}
-    <div id="formcenter">
-        <h1>No rate data</h1>
-    </div>
-
-    <a href="preciousmetal">Back to Precious Metals Page</a>
-    
-    {% endif %}
-
-
->>>>>>> Stashed changes
 {% endblock content %}
