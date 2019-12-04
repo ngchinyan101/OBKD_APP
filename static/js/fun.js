@@ -180,3 +180,63 @@ $(document).ready(function () {
     var r = $("#uobRate").val()
     console.log(r)
 })
+
+// cad/sgd
+function cad() {
+    $('#exampleModal').modal('show')
+    var r = $("#cadRate").text()
+    $('#cadValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#cadInput').on('input', function() {
+        var unit = parseFloat($('#cadInput').val())
+        var tr = parseFloat($('#cadValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#cadresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#cadRate").val()
+    console.log(r)
+})
+
+// jpy/sgd
+function jpy() {
+    $('#exampleModal').modal('show')
+    var r = $("#jpyRate").text()
+    $('#jpyValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#jpyInput').on('input', function() {
+        var unit = parseFloat($('#jpyInput').val())
+        var tr = parseFloat($('#jpyValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#jpyresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#jpyRate").val()
+    console.log(r)
+})
+
+// usd/sgd
+function usd() {
+    $('#exampleModal').modal('show')
+    var r = $("#usdRate").text()
+    $('#usdValue').val(r)
+
+}
+
+$(document).ready(function () {
+    $('#usdInput').on('input', function() {
+        var unit = parseFloat($('#usdInput').val())
+        var tr = parseFloat($('#usdValue').val())
+        console.log(unit + ' ' + tr)
+        var re = $('#usdresult').text('Value: ' + tr * unit)
+
+    })
+    var r = $("#usdRate").val()
+    console.log(r)
+})

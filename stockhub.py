@@ -93,8 +93,6 @@ def callback():
                                   code=authorizationCode, body=body, method='POST')
 
         session['oauth_token'] = token
-        
-        return redirect(url_for('.services'))
 
         session['key'] = 'loggedin'
 
