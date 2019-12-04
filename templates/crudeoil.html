@@ -1,17 +1,33 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-12 blog-main">
-          <h3 class="pb-4 mb-4 font-italic border-bottom">
-            Featured Crude Oil
-          </h3>
-          
-          <a class="row">
-            <div class="column" >
-          <a href="/crudeoil_rate" ><img src="https://d32r1sh890xpii.cloudfront.net/news/718x300/197a5428b9a9bb671d7a7218c48a0b71.jpg" height='200' alt="Oil" style="width:100%" ></a>
-          <h4 class="picturetitle">Crude Oil</h4>
-          </div>
-          </a>
+<div class="row">
+  <div class="col-md-12 blog-main">
+    <h3 class="pb-4 mb-4 font-italic border-bottom">
+      Check Out the Latest Crude Oil Prices Here!
+    </h3>
 
-{% endblock content %}
+    <div class="row">
+      <div class="column">
+        <a href="/crudeoil_rate"><img
+            src="https://d32r1sh890xpii.cloudfront.net/news/718x300/197a5428b9a9bb671d7a7218c48a0b71.jpg" height='200'
+            alt="Oil" style="width:100%"></a>
+        <h4 class="picturetitle">Crude Oil Prices</h4>
+    </a>
+  </div>
+
+    <div class="col-md-12 blog-main">
+      <h3 class="pb-4 mb-4 font-italic border-bottom">
+        News on Crude Oil
+      </h3>
+
+      <div class="row">
+        <div class="column">
+          <a href="/oilnews" style="color: black;"><img
+              src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iQG2kq2bb8.0/v1/1000x-1.jpg"
+              height='200' alt="Snow" style="width:100%">
+            <div class="picturetitle">Crude Oil News</div>
+          </a>
+        </div>
+
+        {% endblock content %}

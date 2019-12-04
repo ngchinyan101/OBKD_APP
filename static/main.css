@@ -53,8 +53,13 @@ a.text-dark:hover {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h6 {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+h5 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  margin:50px;
 }
 
 .display-4 {

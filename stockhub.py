@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, session, url_for, render_template, f
 from requests_oauthlib import OAuth2Session
 from forms import RegistrationForm, LoginForm
 from requests.auth import HTTPBasicAuth
+from newsapi import NewsApiClient
 import requests
 import json
 
@@ -15,6 +16,8 @@ client_secret = "031e8b93c90984f2c4a8bf0d0b7b3360"
 authorization_base_url = 'https://apm.tp.sandbox.fidor.com/oauth/authorize'
 token_url = 'https://apm.tp.sandbox.fidor.com/oauth/token'
 redirect_uri = 'http://localhost:5000/callback'
+
+newsapi = NewsApiClient(api_key='158a2c8a3e7b4f7daab8bc350178c1a3')
 
 @app.route("/")
 @app.route("/homepage")
@@ -137,6 +140,62 @@ def bitcoinresult():
 
     return render_template('bitcoin_rate.html', title='Bitcoin Rate',bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName ,bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate)
 
+@app.route('/bitcoinnews', methods=['GET'])
+def bitcoinnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='bitcoin', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('bitcoinnews.html', title='Bitcoin News', ses=session_var_value, news=news)
+
+    
+@app.route('/litecoinnews', methods=['GET'])
+def litecoinnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='litecoin', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('litecoinnews.html', title='Litecoin News', ses=session_var_value, news=news)
+
+@app.route('/ethereumnews', methods=['GET'])
+def ethereumnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='ethereum', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('ethereumnews.html', title='Ethereum News', ses=session_var_value, news=news)
+
+@app.route('/equitiesnews', methods=['GET'])
+def equitiesnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='equities', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('equitiesnews.html', title='Equities News', ses=session_var_value, news=news)
+
+@app.route('/forexnews', methods=['GET'])
+def forexnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='forex', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('forexnews.html', title='Forex News', ses=session_var_value, news=news)
+
+@app.route('/currencynews', methods=['GET'])
+def currencynews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='currency', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('currencynews.html', title='Currency News', ses=session_var_value, news=news)
+
+@app.route('/metalnews', methods=['GET'])
+def metalnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='metals', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('metalnews.html', title='Metals News', ses=session_var_value, news=news)
+
+@app.route('/oilnews', methods=['GET'])
+def oilnews():
+    session_var_value = session.get('key')
+    top_headlines = newsapi.get_everything(q='crude-oil', language='en', page_size=15)
+    news = top_headlines['articles']
+    return render_template('oilnews.html', title='Oil News', ses=session_var_value, news=news)
 
 # litecoin section
 @app.route('/litecoin', methods=['GET'])
@@ -185,6 +244,7 @@ def litecoinresult():
         
 
     return render_template('litecoin_rate.html', title='Litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate)
+
 
 # Ethereum section
 @app.route('/ethereum', methods=['GET'])

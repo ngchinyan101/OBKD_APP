@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<head>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container1 {
+            padding: 2px 16px;
+        }
+    </style>
+
+
+</head>
+
+<div class="row">
+    <div class="col-md-12 blog-main">
+        <h3 class="pb-4 mb-4 font-italic border-bottom">
+            Featured Ethereum News
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    {% for post in news %}
+    <div class="column">
+        <div class="card">
+            <a href="{{post.url}}" style="text-decoration: none;"><img src="{{post.urlToImage}}"  style="width:100%" height="200"></a>
+            <a href="{{post.url}}" style="text-decoration: none;"><div class="container1" >
+                <h4><b>{{ post.title }}</b></h4>
+                <p>{{ post.publishedAt }}</p>
+            </div></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

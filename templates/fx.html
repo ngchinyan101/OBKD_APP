@@ -1,10 +1,37 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-12 blog-main">
-          <h3 class="pb-4 mb-4 font-italic border-bottom">
-            Featured Foreign Exchange
-          </h3>
 
-{% endblock content %}
+<div class="row">
+  <div class="col-md-12 blog-main">
+    <h3 class="pb-4 mb-4 font-italic border-bottom">
+      Featured Foreign Exchange
+    </h3>
+  </div>
+
+
+
+<div class="col-md-12 blog-main">
+  <h3 class="pb-4 mb-4 font-italic border-bottom">
+    Featured Foreign Exchange News
+  </h3>
+
+      <div class="row">
+        <div class="column">
+          <a href="/forexnews" style="color: black;"><img
+              src="https://a.c-dn.net/b/2QqWwc/what-is-forex_body_what_is_forex.jpg.full.jpg"
+              height='200' alt="Snow" style="width:100%">
+            <div class="picturetitle">Forex News</div>
+          </a>
+        </div>
+        <div class="column">
+            <a href="/currencynews" style="color: black;"><img
+                src="https://www.markettraders.com/wp-content/uploads/2017/07/How-to-Easily-Calculate-Cross-Currency-Rates-.png"
+                height='200' alt="Snow" style="width:100%">
+              <div class="picturetitle">Currency News</div>
+            </a>
+          </div>
+      </div>
+  </div>
+</div>
+        {% endblock content %}
