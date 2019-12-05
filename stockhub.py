@@ -639,14 +639,16 @@ def gold():
 
     date = table[0]
     usdam = table[1]
+    usdam1 = usdam * 1.42
     usdpm = table[2]
+    usdpm1 = usdpm * 1.42
     gbpam = table[3]
     gbppm = table[4]
     euroam = table[5]
     europm = table[6]
     # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
 
-    return render_template('gold.html', title='Gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, ses=session_var_value)
+    return render_template('gold.html', title='Gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, ses=session_var_value, usdam1 = usdam1, usdpm1 = usdpm1)
 
 #silver section
 @app.route('/silver', methods=['GET'])
@@ -677,10 +679,11 @@ def silver():
 
     date=table[0]
     usd=table[1]
+    usd1 = usd * 1.42
     gbp=table[2]
     euro=table[3]
 
-    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, title='Silver', ses=session_var_value)
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, usd1 = usd1, title='Silver', ses=session_var_value)
 
 
     # print(response.text)
