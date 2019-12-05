@@ -31,19 +31,51 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                <input id="uobValue">
-                <input id="uobInput">
-                <br>
-                <label id="uobresult"></label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="/services"><button type="button" class="btn btn-primary">Buy</button></a>
-                </div>
+                <div>
+                    <form class="form-inline">
+                        <div class="form-group mb-2">
+                          <label for="staticEmail2" class="sr-only">Amount: </label>
+                          <input type="text" readonly="" class="form-control-plaintext" id="staticEmail2" value="Amount:">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                          <label for="inputPassword2" class="sr-only"></label>
+                          <input type="text" class="form-control" id="inputPassword2" placeholder="please input the amount">
+                        </div>
+                        <button class="btn btn-primary mb-2" onclick="display();return false;">Calculate</button>
+                      </form>
+                      <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
+                        <form class="form-inline" action="BuySingaporeEquity" method="POST">
+                          <div class="form-group mb-2">
+                            <label for="staticEmail3" class="sr-only">Price(SGD): </label>
+                            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3" value="Price(SGD): ">
+                          </div>
+                          <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputPassword3" class="sr-only">$110</label>
+                            <input name="price" readonly="" type="text" class="form-control" id="inputPassword3" placeholder="$110">
+                          </div>
+                          <button type="submit" class="btn btn-warning mb-2">Submit</button>
+                        </form>
             </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
     </div>
+    </div>
+</div>
+
+<script>
+    function display(){
+      let price = {{ bPrice }} * Number.parseFloat(document.querySelector("#inputPassword2").value);
+      if (price > 500.0){
+        window.alert("You cannot transfer more than SGD$500");
+        document.querySelector("#result").style = "visibility:visible;";
+        document.querySelector("#inputPassword2").value = 500 / {{bPrice}};
+        document.querySelector("#inputPassword3").value = 500;
+        return;
+      }
+      document.querySelector("#result").style = "visibility:visible;";
+      document.querySelector("#inputPassword3").value = price;
+    }
+  </script>
 
     {% else %}
     <div id="formcenter">
