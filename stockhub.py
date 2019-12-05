@@ -5,7 +5,7 @@ from requests.auth import HTTPBasicAuth
 from newsapi.newsapi_client import NewsApiClient
 import requests
 import json
-
+import random
 app = Flask(__name__)
 
 app.config['SESSION_TYPE'] = 'memcached'
@@ -65,12 +65,12 @@ def cryptocurrencyindex():
     return render_template('cryptocurrencyindex.html', title='Purchase of Cryptocurrency', ses=session_var_value)
 
 # @app.route("/gold", methods=["GET"])
-# def gold(): 
+# def gold():
 #     session_var_value = session.get('key')
 #     return render_template('gold.html', title='Gold', ses=session_var_value)
 
 # @app.route("/silver", methods=["GET"])
-# def silver(): 
+# def silver():
 #     session_var_value = session.get('key')
 #     return render_template('silver.html', title='Silver', ses=session_var_value)
 
@@ -103,16 +103,17 @@ def callback():
         return redirect(url_for('.homepage'))
 
 # @app.route("/gold", methods=["GET"])
-# def gold(): 
+# def gold():
 #     session_var_value = session.get('key')
 #     return render_template('gold.html', title='Gold', ses=session_var_value)
 
 # @app.route("/silver", methods=["GET"])
-# def silver(): 
+# def silver():
 #     session_var_value = session.get('key')
 #     return render_template('silver.html', title='Silver', ses=session_var_value)
 
-if __name__ == '___main__': 
+
+if __name__ == '___main__':
     app.run(debug=True)
 
 # bitcoin section
@@ -128,46 +129,45 @@ def bitcoin():
 def bitcoinresult():
     session_var_value = session.get('key')
     error = None
-    if request.method == "POST":
-        bitcoinCode = request.form['bitcoinSymbol']
-        api_key = 'Y0N5J0ZJLKJACDU2'
+    bitcoinCode = request.form['bitcoinSymbol']
+    api_key = 'Y0N5J0ZJLKJACDU2'
 
-        url = "https://www.alphavantage.co/query"
+    url = "https://www.alphavantage.co/query"
 
-        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
-                       "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
+    querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                   "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
 
-        headers = {
-            'User-Agent': "PostmanRuntime/7.20.1",
-            'Accept': "*/*",
-            'Cache-Control': "no-cache",
-            'Postman-Token': "80da5e82-2870-483c-808e-fadd5e500863,12e05540-db9d-4a5f-bed7-f6cbbaacf1e5",
-            'Host': "www.alphavantage.co",
-            'Accept-Encoding': "gzip, deflate",
-            'Connection': "keep-alive",
-            'cache-control': "no-cache"
-        }
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "80da5e82-2870-483c-808e-fadd5e500863,12e05540-db9d-4a5f-bed7-f6cbbaacf1e5",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
-        bitcoinData = json.loads(response.text)
+    bitcoinData = json.loads(response.text)
 
-        fromBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+    fromBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
 
-        fromBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+    fromBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
 
-        toBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+    toBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
 
-        toBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+    toBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
 
-        lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+    lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
-        latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+    latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
 
     return render_template('bitcoin_rate.html', title='Bitcoin Rate', bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName, bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate, ses=session_var_value)
 
-#----------------- DBS ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+# ----------------- DBS (Jacky) ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 @app.route('/DBS', methods=['GET', 'POST'])
 def DBS():
 
@@ -175,7 +175,8 @@ def DBS():
     error = None
     api_key = '7Y1YUNF6P6UQA11Q'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "D05.SI", "interval": "5min", "apikey": api_key}
+    querystring = {"function": "TIME_SERIES_INTRADAY",
+                   "symbol": "D05.SI", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -200,7 +201,8 @@ def DBS():
 
     return render_template('DBS.html', title='DBS Price', bCode=DBSCode, bPrice=closingPrice, bVolume=volume, bTime=lastRefreshedDate, ses=session_var_value)
 
-#----------------- UOB ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+# ----------------- UOB (Jacky) ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
 
 @app.route('/UOB', methods=['GET', 'POST'])
 def UOB():
@@ -209,7 +211,8 @@ def UOB():
     error = None
     api_key = '7Y1YUNF6P6UQA11Q'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "U11.SI", "interval": "5min", "apikey": api_key}
+    querystring = {"function": "TIME_SERIES_INTRADAY",
+                   "symbol": "U11.SI", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -234,7 +237,8 @@ def UOB():
 
     return render_template('UOB.html', title='UOB Price', bCode=UOBCode, bPrice=closingPrice, bVolume=volume, bTime=lastRefreshedDate, ses=session_var_value)
 
-#----------------- OCBC ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+# ----------------- OCBC (Jacky) ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
 
 @app.route('/OCBC', methods=['GET', 'POST'])
 def OCBC():
@@ -242,7 +246,8 @@ def OCBC():
     error = None
     api_key = '7Y1YUNF6P6UQA11Q'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function": "TIME_SERIES_INTRADAY","symbol": "O39.SI", "interval": "5min", "apikey": api_key}
+    querystring = {"function": "TIME_SERIES_INTRADAY",
+                   "symbol": "O39.SI", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -473,7 +478,7 @@ def profile():
         url = "https://api.tp.sandbox.fidor.com/accounts"
         urlTransfer = "https://api.tp.sandbox.fidor.com/transactions"
         url2 = "https://api.tp.sandbox.fidor.com/internal_transfers"
-        
+
         payload = ""
         headers = {
             'Accept': "application/vnd.fidor.de;version=1;text/json",
@@ -484,8 +489,10 @@ def profile():
 
         # accounts details response
         response = requests.request("GET", url, data=payload, headers=headers)
-        response1 = requests.request("GET", urlTransfer, data=payload, headers=headers)
-        response2 = requests.request("GET", url2, data=payload, headers=headers)
+        response1 = requests.request(
+            "GET", urlTransfer, data=payload, headers=headers)
+        response2 = requests.request(
+            "GET", url2, data=payload, headers=headers)
 
         # if (trans == trans):
         #     print(trans)
@@ -497,12 +504,11 @@ def profile():
         # transfer history response
         receivedHistory = json.loads(response2.text)
         reiHis = receivedHistory['data']
-        
 
         # internal history response
         transferHistory = json.loads(response1.text)
         transferH = transferHistory['data']
-        
+
         customersAccount = json.loads(response.text)
         customerDetails = customersAccount['data'][0]
         customerInformation = customerDetails['customers'][0]
@@ -512,8 +518,7 @@ def profile():
                                fFirstName=customerInformation["first_name"],
                                fAccountNo=customerDetails["account_number"], fBalance=(
                                    customerDetails["balance"]/100),
-                               fEmailAccount=customerInformation["email"], ses=session_var_value, posts=transferH
-                               , reci=reiHis)
+                               fEmailAccount=customerInformation["email"], ses=session_var_value, posts=transferH, reci=reiHis)
 
     except KeyError:
         # if token expired...
@@ -536,7 +541,7 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-#crudeoil section
+# crudeoil section
 @app.route('/crudeoil_rate', methods=["GET", "POST"])
 def crudeoilrate():
     session_var_value = session.get('key')
@@ -547,43 +552,45 @@ def crudeoilrate():
 
     url1 = "https://www.quandl.com/api/v3/datasets/OPEC/ORB.json"
 
-    querystring1 = {"api_key":"Y5E16RZGMzxsnwQCckVY", "start_date":"2019-11-30"}
+    querystring1 = {"api_key": "Y5E16RZGMzxsnwQCckVY",
+                    "start_date": "2019-11-30"}
 
 #payload = "{\n\t\"account_id\":\"\",\n\t\"receiver\": \"\",\n\t\"external_uid\": \"\",\n\t\"amount\":\"\",\n\t\"subject\": \"\"\n}"
     headers1 = {
         'Accept': "*/*",
-        #'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
+        # 'Authorization': "Bearer 0a3dea4272b8be7193d961fb0b304927,Bearer 0a3dea4272b8be7193d961fb0b304927",
         'User-Agent': "PostmanRuntime/7.20.1",
         'Cache-Control': "no-cache",
         'Postman-Token': "db98c1be-8300-4b3f-a259-f0ef3313eb4f,1f451134-3c43-4b37-b497-d3fb0ea5e701",
         'Host': "www.quandl.com",
         'Accept-Encoding': "gzip, deflate",
-        #'Content-Length': "88",
+        # 'Content-Length': "88",
         'Cookie': "__cfduid=dc84d28528ac00ee6ee4484085a0ba46c1571886503",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
     }
 
-    response1 = requests.request("GET", url1, headers=headers1, params=querystring1)
+    response1 = requests.request(
+        "GET", url1, headers=headers1, params=querystring1)
 
     crudeoil = json.loads(response1.text)
     table1 = crudeoil["dataset"]
     tr = table1["data"][0]
     tr1 = tr.pop(0)
     tr2 = tr.pop(0)
-    #Converts data from USD to SGD
+    # Converts data from USD to SGD
     newval = float(tr2)
 
     nameCrudeOil = crudeoil["dataset"]["name"]
     descCrudeOil = crudeoil["dataset"]["description"]
     lastrefCrudeOil = crudeoil["dataset"]["newest_available_date"]
 
-
     api_key2 = 'DOJSMQ3ZWF2XI4O2'
 
-    url2 = "https://www.alphavantage.co/query"   
+    url2 = "https://www.alphavantage.co/query"
 
-    querystring2 = {"function":"CURRENCY_EXCHANGE_RATE","from_currency":"USD","to_currency":"SGD","apikey":api_key2}   
+    querystring2 = {"function": "CURRENCY_EXCHANGE_RATE",
+                    "from_currency": "USD", "to_currency": "SGD", "apikey": api_key2}
 
     headers2 = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -594,9 +601,10 @@ def crudeoilrate():
         'Accept-Encoding': "gzip, deflate",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }  
+    }
 
-    response2 = requests.request("GET", url2, headers=headers2, params=querystring2)
+    response2 = requests.request(
+        "GET", url2, headers=headers2, params=querystring2)
 
     conversion = json.loads(response2.text)
     print(conversion)
@@ -604,14 +612,13 @@ def crudeoilrate():
     date = conversion["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
     convert2 = float(convert)
     conversionrate = convert2 * newval
-    conversionratesdp = round (conversionrate, 4)
+    conversionratesdp = round(conversionrate, 4)
 
     return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=newval, name=nameCrudeOil, desc=descCrudeOil, lastref=lastrefCrudeOil,
-                             covert=convert, date=date, cCode=conversionratesdp, ses=session_var_value)
+                           covert=convert, date=date, cCode=conversionratesdp, ses=session_var_value)
 
 
-
-#gold section
+# gold section
 @app.route('/gold', methods=['GET'])
 def gold():
     session_var_value = session.get('key')
@@ -619,7 +626,7 @@ def gold():
 
     url = "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json"
 
-    querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
+    querystring = {"api_key": "dtdMAt4GywqNa19PJiR6"}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.18.0",
@@ -631,9 +638,10 @@ def gold():
         'Cookie': "__cfduid=dc38cef7ba8473abba1fc55e60eeffe351571885997",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }
+    }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
     gold = json.loads(response.text)
     table = gold["dataset"]["data"][0]
@@ -649,9 +657,9 @@ def gold():
     europm = table[6]
     # tData = {'date'=date, 'usdam'=usdam, 'usdpm'=usdpm, 'gbpam'=gbpam, 'gbppm'=gbppm, 'euroam'=euroam, 'europm'=europm }
 
-    return render_template('gold.html', title='Gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, ses=session_var_value, usdam1 = usdam1, usdpm1 = usdpm1)
+    return render_template('gold.html', title='Gold', date=date, usdam=usdam, usdpm=usdpm, gbpam=gbpam, gbppm=gbppm, euroam=euroam, europm=europm, ses=session_var_value, usdam1=usdam1, usdpm1=usdpm1)
 
-#silver section
+# silver section
 @app.route('/silver', methods=['GET'])
 def silver():
     session_var_value = session.get('key')
@@ -659,7 +667,7 @@ def silver():
 
     url = "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json"
 
-    querystring = {"api_key":"dtdMAt4GywqNa19PJiR6"}
+    querystring = {"api_key": "dtdMAt4GywqNa19PJiR6"}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.18.0",
@@ -671,23 +679,24 @@ def silver():
         'Cookie': "__cfduid=dc38cef7ba8473abba1fc55e60eeffe351571885997",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }
+    }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
     silver = json.loads(response.text)
     table = silver["dataset"]["data"][0]
 
-    date=table[0]
-    usd=table[1]
+    date = table[0]
+    usd = table[1]
     usd1 = usd * 1.42
-    gbp=table[2]
-    euro=table[3]
+    gbp = table[2]
+    euro = table[3]
 
-    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, usd1 = usd1, title='Silver', ses=session_var_value)
-
+    return render_template('silver.html', date=date, usd=usd, gbp=gbp, euro=euro, usd1=usd1, title='Silver', ses=session_var_value)
 
     # print(response.text)
+
 
 @app.route('/index', methods=["GET"])
 def default():
@@ -701,7 +710,8 @@ def default():
     print("authorization URL is = " + authorization_url)
     return redirect(authorization_url)
 
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route("/services", methods=["GET"])
 def services():
@@ -734,29 +744,31 @@ def services():
         print("Key error in services-to return back to index")
         return redirect(url_for('default'))
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route("/bank_transfer", methods=["GET"])
 def transfer():
     session_var_value = session.get('key')
     try:
         customersAccount = session['fidor_customer']
-        customerDetails= customersAccount['data'][0]
+        customerDetails = customersAccount['data'][0]
 
-        return render_template('internal_transfer.html', title='Make Payment', fFIDORID=customerDetails["id"],fAccountNo=customerDetails["account_number"], fBalance=(customerDetails["balance"]/100), ses=session_var_value)
+        return render_template('internal_transfer.html', title='Make Payment', fFIDORID=customerDetails["id"], fAccountNo=customerDetails["account_number"], fBalance=(customerDetails["balance"]/100), ses=session_var_value)
 
     except KeyError:
         print("Key error in bank_transfer-to return back to index")
         return redirect(url_for('.index'))
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route("/process", methods=["POST"])
 def process():
     session_var_value = session.get('key')
 
     if request.method == "POST":
-        token = session ['oauth_token']
+        token = session['oauth_token']
         customersAccount = session['fidor_customer']
         customerDetails = customersAccount['data'][0]
 
@@ -768,15 +780,17 @@ def process():
 
         url = "https://api.tp.sandbox.fidor.com/internal_transfers"
 
-        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \""+ custEmail+"\", \n\t\"external_uid\": \""+transactionID+"\", \n\t\"amount\": "+ str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
-        
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
         headers = {
             'Accept': "application/vnd.fidor.de;version=1;text/json",
             'Authorization': "Bearer "+token["access_token"],
             'Content-Type': "application/json",
             'Cache-Control': "no-cache",
             'Postman-Token': "ce7b9b33-11d5-42e8-ac3f-565035973416,d2836e54-dcb3-41dd-8a12-fb9c8857de5b"
-            }
+        }
 
         response = requests.request("POST", url, data=payload, headers=headers)
 
@@ -785,7 +799,8 @@ def process():
         transactionDetails = json.loads(response.text)
         return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
 
-#CAD----------------------------------------------------------------------------------------------
+# CAD----------------------------------------------------------------------------------------------
+
 
 @app.route('/cad', methods=['GET', 'POST'])
 def cad():
@@ -794,7 +809,8 @@ def cad():
     error = None
     api_key = 'D0KQHW0HWELG9SJ2'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function":"FX_INTRADAY","from_symbol":"CAD","to_symbol":"SGD","interval":"5min","apikey": api_key}
+    querystring = {"function": "FX_INTRADAY", "from_symbol": "CAD",
+                   "to_symbol": "SGD", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -805,9 +821,10 @@ def cad():
         'Accept-Encoding': "gzip, deflate",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }
+    }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
     CadData = json.loads(response.text)
     lastRefreshedDate = CadData["Meta Data"]["4. Last Refreshed"]
@@ -816,9 +833,10 @@ def cad():
     SgdCode = CadData["Meta Data"]["3. To Symbol"]
     closingPrice = latestStockPrices["4. close"]
 
-    return render_template('cad.html', title='CAD/SGD', bCode=CadCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 
+    return render_template('cad.html', title='CAD/SGD', bCode=CadCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value)
 
-#USD-------------------------------------------------------------------------------------------------------------------------------------
+# USD-------------------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route('/usd', methods=['GET', 'POST'])
 def usd():
@@ -827,7 +845,8 @@ def usd():
     error = None
     api_key = 'D0KQHW0HWELG9SJ2'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function":"FX_INTRADAY","from_symbol":"USD","to_symbol":"SGD","interval":"5min","apikey": api_key}
+    querystring = {"function": "FX_INTRADAY", "from_symbol": "USD",
+                   "to_symbol": "SGD", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -838,9 +857,10 @@ def usd():
         'Accept-Encoding': "gzip, deflate",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }
+    }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
     UsdData = json.loads(response.text)
     lastRefreshedDate = UsdData["Meta Data"]["4. Last Refreshed"]
@@ -849,9 +869,10 @@ def usd():
     SgdCode = UsdData["Meta Data"]["3. To Symbol"]
     closingPrice = latestStockPrices["4. close"]
 
-    return render_template('usd.html', title='USD/SGD', bCode=UsdCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 
+    return render_template('usd.html', title='USD/SGD', bCode=UsdCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value)
 
-#JPY-------------------------------------------------------------------------------------------------------------------------------------
+# JPY-------------------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route('/jpy', methods=['GET', 'POST'])
 def jpy():
@@ -860,7 +881,8 @@ def jpy():
     error = None
     api_key = 'D0KQHW0HWELG9SJ2'
     url = "https://www.alphavantage.co/query"
-    querystring = {"function":"FX_INTRADAY","from_symbol":"JPY","to_symbol":"SGD","interval":"5min","apikey": api_key}
+    querystring = {"function": "FX_INTRADAY", "from_symbol": "JPY",
+                   "to_symbol": "SGD", "interval": "5min", "apikey": api_key}
 
     headers = {
         'User-Agent': "PostmanRuntime/7.20.1",
@@ -871,9 +893,10 @@ def jpy():
         'Accept-Encoding': "gzip, deflate",
         'Connection': "keep-alive",
         'cache-control': "no-cache"
-        }
+    }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
     JpyData = json.loads(response.text)
     lastRefreshedDate = JpyData["Meta Data"]["4. Last Refreshed"]
@@ -882,4 +905,45 @@ def jpy():
     SgdCode = JpyData["Meta Data"]["3. To Symbol"]
     closingPrice = latestStockPrices["4. close"]
 
-    return render_template('jpy.html', title='JPY/SGD', bCode=JpyCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value) 
+    return render_template('jpy.html', title='JPY/SGD', bCode=JpyCode, cCode=SgdCode, bPrice=closingPrice, bTime=lastRefreshedDate, ses=session_var_value)
+
+
+# BUYING OF SINGAPORE EQUITY (Jacky) ------------------------------------------------------------------------------------------------------------------
+@app.route('/BuySingaporeEquity', methods=['POST'])
+def BuySingaporeEquity():
+    if request.method == "POST":
+        token = session['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = "1805288F@student.tp.edu.sg"
+        transferAmt = int(float(request.form['price']) * 100)
+        transferRemarks = "Buying Singapore Equities"
+        transactionID = str(int(random.random()*1000000))
+        #custEmail = request.form['customerEmailAdd']
+        #transferAmt = int(float(request.form['transferAmount'])*100)
+        #transferRemarks = request.form['transferRemarks']
+        #transactionID = request.form['transactionID']
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "26e6087c-843f-4370-8ba4-a55346997a3c,c52a5f2e-09de-4359-98bd-3bb36e480c6d"
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"])
+
