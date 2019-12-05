@@ -7,7 +7,7 @@
 
 
 <div id="formcenter">
-<h2 id="title"><u>Latest Crude Oil Price</u></h2>
+<h2 id="title"><u>Latest OPEC Crude Oil Price</u></h2>
     <h4><b>Latest Price:</b> SGD$<b id="cRate">{{ cCode }}</b></h4>
     <h4><b>Date:</b> {{ table }} </h4>
     <h4><b>Name:</b>{{name}}</h4>
@@ -16,7 +16,7 @@
 
     <br>  
     {% if cCode %}
-    <b><h4>Conversion rate from USD to SGD is at {{covert}} as of {{date}}</h4></b>
+    <h4>Conversion rate from USD to SGD is at <b>{{covert}}</b> as of <b>{{date}}</b></h4>
 
     <button type="button" id="buybtn"
     onclick="crudeoil()"  style="align-items: center;">
@@ -54,5 +54,43 @@ aria-hidden="true">
     </div>
 </div>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<!-- TradingView Widget BEGIN -->
+<div class ="widgettrade">
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/futures/" rel="noopener" target="_blank"><span class="blue-text">Commodities</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+    {
+    "width": 770,
+    "height": 450,
+    "symbolsGroups": [
+      {
+        "name": "Commodities",
+        "originalName": "Commodities",
+        "symbols": [
+          {
+            "name": "TVC:USOIL",
+            "displayName": "US WTI CRUDE OIL"
+          },
+          {
+            "name": "TVC:UKOIL",
+            "displayName": "UK BRENT CRUDE OIL"
+          }
+        ]
+      }
+    ],
+    "locale": "en"
+  }
+    </script>
+  </div>
+</div>
+  <!-- TradingView Widget END -->
+<a href="oilnews">To Crude Oil News</a>
+<br>
+<br>
+<a href="crudeoil">To Crude Oil Page</a>
 {% endblock content %}

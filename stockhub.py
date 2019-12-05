@@ -604,9 +604,10 @@ def crudeoilrate():
     date = conversion["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
     convert2 = float(convert)
     conversionrate = convert2 * newval
+    conversionratesdp = round (conversionrate, 4)
 
     return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=newval, name=nameCrudeOil, desc=descCrudeOil, lastref=lastrefCrudeOil,
-                             covert=convert, date=date, cCode=conversionrate, ses=session_var_value)
+                             covert=convert, date=date, cCode=conversionratesdp, ses=session_var_value)
 
 
 
