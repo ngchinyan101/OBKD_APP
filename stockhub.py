@@ -439,7 +439,8 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-# crudeoil section
+
+# CRUDE OIL SECTION VICTOR 1804310I------------------------------------------------------------------------------------------------------------------------------------------------
 @app.route('/crudeoil_rate', methods=["GET", "POST"])
 def crudeoilrate():
     session_var_value = session.get('key')
@@ -476,7 +477,6 @@ def crudeoilrate():
     tr = table1["data"][0]
     tr1 = tr.pop(0)
     tr2 = tr.pop(0)
-    # Converts data from USD to SGD
     newval = float(tr2)
 
     nameCrudeOil = crudeoil["dataset"]["name"]
@@ -509,8 +509,10 @@ def crudeoilrate():
     convert = conversion["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
     date = conversion["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
     convert2 = float(convert)
+    # Converts data from USD to SGD
     conversionrate = convert2 * newval
-    conversionratesdp = round(conversionrate, 4)
+    #converts the amount to 2 dp
+    conversionratesdp = round(conversionrate, 2)
 
     return render_template('crudeoil_rate.html', title='Crude Oil Rate', table=tr1, table1=newval, name=nameCrudeOil, desc=descCrudeOil, lastref=lastrefCrudeOil,
                            covert=convert, date=date, cCode=conversionratesdp, ses=session_var_value)
@@ -1082,3 +1084,37 @@ def BuyEthereum():
 
         transactionDetails = json.loads(response.text)
         return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
+#BUYING CRUDE OIL VICTOR 1804310I-------------------------------------------------------------------------------------------------------------------------
+@app.route('/BuyCrudeOil',methods=['POST'])
+def BuyCrudeOil():
+    if request.method =="POST":
+        token = session['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = "1804310I@student.tp.edu.sg"
+        transferAmt = int(float(request.form['price'])*100)
+        transferRemarks = "Buying Crude Oil"
+        transactionID = str(int(random.random()*100000))
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "26e6087c-843f-4370-8ba4-a55346997a3c,c52a5f2e-09de-4359-98bd-3bb36e480c6d"
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"])
