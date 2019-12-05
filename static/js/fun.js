@@ -1,8 +1,23 @@
-// bitcoin 
+// function displayBitcoin() {
+//     var bRate = parseFloat($('#bRate').val())
+//     var rate = bRate * Number.parseFloat(document.querySelector("#inputAmt").value);
+//     if (rate > 500.0) {
+//         window.alert("You cannot transfer more than SGD$500");
+//         document.querySelector("#result").style = "visibility:visible;";
+//         document.querySelector("#inputAmt").value = 500 / {{bRate}};
+//         document.querySelector("#inputPassword3").value = 500;
+//         return;
+//     }
+//     document.querySelector("#result").style = "visibility:visible;";
+//     document.querySelector("#inputPassword3").value = rate;
+// }
+
+
+// // bitcoin 
 
 function buy() {
     $('#exampleModal').modal('show')
-    var r = $("#bRate").text()
+    var r = $("#bitcoinRate").text()
     $('#bValue').val(r)
 }
 

@@ -117,55 +117,55 @@ if __name__ == '___main__':
     app.run(debug=True)
 
 # bitcoin section
-@app.route('/bitcoin', methods=['GET'])
-def bitcoin():
+# @app.route('/bitcoin', methods=['GET'])
+# def bitcoin():
 
-    session_var_value = session.get('key')
+#     session_var_value = session.get('key')
 
-    return render_template('bitcoin.html', title='Bitcoin', ses=session_var_value)
+#     return render_template('bitcoin.html', title='Bitcoin', ses=session_var_value)
 
 
-@app.route('/bitcoinresult', methods=['GET', 'POST'])
-def bitcoinresult():
-    session_var_value = session.get('key')
-    error = None
-    bitcoinCode = request.form['bitcoinSymbol']
-    api_key = 'Y0N5J0ZJLKJACDU2'
+# @app.route('/bitcoinresult', methods=['GET', 'POST'])
+# def bitcoinresult():
+#     session_var_value = session.get('key')
+#     # error = None
+#     bitcoinCode = request.form['bitcoinSymbol']
+#     api_key = 'Y0N5J0ZJLKJACDU2'
 
-    url = "https://www.alphavantage.co/query"
+#     url = "https://www.alphavantage.co/query"
 
-    querystring = {"function": "CURRENCY_EXCHANGE_RATE",
-                   "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
+#     querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+#                    "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
 
-    headers = {
-        'User-Agent': "PostmanRuntime/7.20.1",
-        'Accept': "*/*",
-        'Cache-Control': "no-cache",
-        'Postman-Token': "80da5e82-2870-483c-808e-fadd5e500863,12e05540-db9d-4a5f-bed7-f6cbbaacf1e5",
-        'Host': "www.alphavantage.co",
-        'Accept-Encoding': "gzip, deflate",
-        'Connection': "keep-alive",
-        'cache-control': "no-cache"
-    }
+#     headers = {
+#         'User-Agent': "PostmanRuntime/7.20.1",
+#         'Accept': "*/*",
+#         'Cache-Control': "no-cache",
+#         'Postman-Token': "80da5e82-2870-483c-808e-fadd5e500863,12e05540-db9d-4a5f-bed7-f6cbbaacf1e5",
+#         'Host': "www.alphavantage.co",
+#         'Accept-Encoding': "gzip, deflate",
+#         'Connection': "keep-alive",
+#         'cache-control': "no-cache"
+#     }
 
-    response = requests.request(
-        "GET", url, headers=headers, params=querystring)
+#     response = requests.request(
+#         "GET", url, headers=headers, params=querystring)
 
-    bitcoinData = json.loads(response.text)
+#     bitcoinData = json.loads(response.text)
 
-    fromBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+#     fromBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
 
-    fromBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+#     fromBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
 
-    toBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+#     toBitcoinCode = bitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
 
-    toBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+#     toBitcoinName = bitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
 
-    lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+#     lastRefreshedBitcoinDate = bitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
 
-    latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+#     latestExchangeBitcoinRate = bitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
 
-    return render_template('bitcoin_rate.html', title='Bitcoin Rate', bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName, bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate, ses=session_var_value)
+#     return render_template('bitcoin_rate.html', title='Bitcoin Rate', bFromCode=fromBitcoinCode, bFromName=fromBitcoinName, bToCode=toBitcoinCode, bToName=toBitcoinName, bCode=bitcoinCode, bRate=latestExchangeBitcoinRate, bTime=lastRefreshedBitcoinDate, ses=session_var_value)
 
 # ----------------- DBS (Jacky) ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 @app.route('/DBS', methods=['GET', 'POST'])
@@ -264,7 +264,7 @@ def OCBC():
         "GET", url, headers=headers, params=querystring)
 
     DBSData = json.loads(response.text)
-    lastRefreshedDate = DBSData["Meta Data"]["3. Last Refreshed"]
+    lastRefreshedDate = DBSData['Meta Data']["3. Last Refreshed"]
     latestStockPrices = DBSData["Time Series (5min)"][lastRefreshedDate]
     OCBCCode = 'O39.SI'
     closingPrice = latestStockPrices["4. close"]
@@ -343,108 +343,6 @@ def oilnews():
         q='crude-oil', language='en', page_size=15)
     news = top_headlines['articles']
     return render_template('oilnews.html', title='Oil News', ses=session_var_value, news=news)
-
-# litecoin section
-@app.route('/litecoin', methods=['GET'])
-def litecoin():
-    session_var_value = session.get('key')
-    return render_template('litecoin.html', title='Litecoin', ses=session_var_value)
-
-
-@app.route('/litecoinresult', methods=['GET', 'POST'])
-def litecoinresult():
-    session_var_value = session.get('key')
-    error = None
-    if request.method == "POST":
-        litecoinCode = request.form['litecoinSymbol']
-        api_key = 'Y0N5J0ZJLKJACDU2'
-
-        url = "https://www.alphavantage.co/query"
-
-        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
-                       "from_currency": "LTC", "to_currency": "SGD", "apikey": api_key}
-
-        headers = {
-            'User-Agent': "PostmanRuntime/7.20.1",
-            'Accept': "*/*",
-            'Cache-Control': "no-cache",
-            'Postman-Token': "d744106b-c528-4b1b-99c9-6b386b326d92,f30915b7-80e2-407c-8899-2c7027431493",
-            'Host': "www.alphavantage.co",
-            'Accept-Encoding': "gzip, deflate",
-            'Connection': "keep-alive",
-            'cache-control': "no-cache"
-        }
-
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-
-        litecoinData = json.loads(response.text)
-
-        fromLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
-
-        fromLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
-
-        toLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
-
-        toLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
-
-        lastRefreshedLitecoinDate = litecoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
-
-        latestExchangeLitecoinRate = litecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-
-    return render_template('litecoin_rate.html', title='Litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate, ses=session_var_value)
-
-
-# Ethereum section
-@app.route('/ethereum', methods=['GET'])
-def ethereum():
-    session_var_value = session.get('key')
-    return render_template('ethereum.html', title='Ethereum', ses=session_var_value)
-
-
-@app.route('/ethereumresult', methods=['GET', 'POST'])
-def ethereumresult():
-    session_var_value = session.get('key')
-    error = None
-    if request.method == "POST":
-        ethereumCode = request.form['ethereumSymbol']
-        api_key = 'Y0N5J0ZJLKJACDU2'
-
-        url = "https://www.alphavantage.co/query"
-
-        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
-                       "from_currency": "ETH", "to_currency": "SGD", "apikey": api_key}
-
-        headers = {
-            'User-Agent': "PostmanRuntime/7.20.1",
-            'Accept': "*/*",
-            'Cache-Control': "no-cache",
-            'Postman-Token': "049e1368-619e-421c-9a12-c1e496fad888,e8edc3d5-18f1-4faa-befb-f12a7f88b168",
-            'Host': "www.alphavantage.co",
-            'Accept-Encoding': "gzip, deflate",
-            'Connection': "keep-alive",
-            'cache-control': "no-cache"
-        }
-
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-
-        ethereumData = json.loads(response.text)
-
-        fromEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
-
-        fromEthereumName = ethereumData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
-
-        toEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
-
-        toEthereumName = ethereumData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
-
-        lastRefreshedEthereumDate = ethereumData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
-
-        latestExchangeEthereumRate = ethereumData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-
-    return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate, ses=session_var_value)
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -947,3 +845,240 @@ def BuySingaporeEquity():
         transactionDetails = json.loads(response.text)
         return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"])
 
+
+@app.route('/bbitcoin', methods=['GET', 'POST'])
+def bbitcoin():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'Y0N5J0ZJLKJACDU2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                   "from_currency": "BTC", "to_currency": "SGD", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "457fcc05-2745-458c-bae6-5443f02a3cc3,3a4f2bfb-b896-4ebe-b912-30ed0419f8c4",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    BitcoinData = json.loads(response.text)
+
+    fromBCode = BitcoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+    print(fromBCode)
+    fromBName = BitcoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+    toBCode = BitcoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+    toBName = BitcoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
+    lastRefreshedBDate = BitcoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+
+    latestExchangeBRate = BitcoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+    print(latestExchangeBRate)
+    return render_template('bbitcoin.html', title='Bitcoin Rates', bFromCode=fromBCode, bFromName=fromBName, bToCode=toBCode, bToName=toBName, bTime=lastRefreshedBDate, bRate=latestExchangeBRate, ses=session_var_value)
+
+@app.route('/BuyBitcoin', methods=['POST'])
+def BuyBitcoin():
+    session_var_value = session.get('key')
+    if request.method == "POST":
+        token = session['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = "1802309C@student.tp.edu.sg"
+        transferAmt = int(float(request.form['rate']) * 100)
+        transferRemarks = "Buying Bitcoin"
+        transactionID = str(int(random.random()*1000000))
+        #custEmail = request.form['customerEmailAdd']
+        #transferAmt = int(float(request.form['transferAmount'])*100)
+        #transferRemarks = request.form['transferRemarks']
+        #transactionID = request.form['transactionID']
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "26e6087c-843f-4370-8ba4-a55346997a3c,c52a5f2e-09de-4359-98bd-3bb36e480c6d"
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
+
+@app.route('/llitecoin', methods=['GET', 'POST'])
+def llitecoin():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'Y0N5J0ZJLKJACDU2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                   "from_currency": "LTC", "to_currency": "SGD", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "499617ad-3dad-4b3c-a36f-962f5b4ab3a2,34db3e88-71d6-4626-8be9-b0a6d7107bcf",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    LitecoinData = json.loads(response.text)
+
+    fromLCode = LitecoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+    print(fromLCode)
+    fromLName = LitecoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+    toLCode = LitecoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+    toLName = LitecoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
+    lastRefreshedLDate = LitecoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+
+    latestExchangeLRate = LitecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+    print(latestExchangeLRate)
+    return render_template('llitecoin.html', title='Litecoin Rates', lFromCode=fromLCode, lFromName=fromLName, lToCode=toLCode, lToName=toLName, lTime=lastRefreshedLDate, lRate=latestExchangeLRate, ses=session_var_value)
+
+@app.route('/eethereum', methods=['GET', 'POST'])
+def eethereum():
+
+    session_var_value = session.get('key')
+    error = None
+    api_key = 'Y0N5J0ZJLKJACDU2'
+    url = "https://www.alphavantage.co/query"
+    querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                   "from_currency": "ETH", "to_currency": "SGD", "apikey": api_key}
+
+    headers = {
+        'User-Agent': "PostmanRuntime/7.20.1",
+        'Accept': "*/*",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "3fc777dd-a646-4d27-9a42-f3d32ab9bd0a,b7c526b6-08b8-419f-bf90-ee3e17d9c849",
+        'Host': "www.alphavantage.co",
+        'Accept-Encoding': "gzip, deflate",
+        'Connection': "keep-alive",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    EthereumData = json.loads(response.text)
+
+    fromECode = EthereumData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+    print(fromECode)
+    fromEName = EthereumData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+    toECode = EthereumData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+    toEName = EthereumData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
+    lastRefreshedEDate = EthereumData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+
+    latestExchangeERate = EthereumData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+    print(latestExchangeERate)
+    return render_template('eethereum.html', title='Ethereum Rates', eFromCode=fromECode, eFromName=fromEName, eToCode=toECode, eToName=toEName, eTime=lastRefreshedEDate, eRate=latestExchangeERate, ses=session_var_value)
+
+@app.route('/BuyLitecoin', methods=['POST'])
+def BuyLitecoin():
+    session_var_value = session.get('key')
+    if request.method == "POST":
+        token = session['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = "1802309C@student.tp.edu.sg"
+        transferAmt = int(float(request.form['rate']) * 100)
+        transferRemarks = "Buying Litecoin"
+        transactionID = str(int(random.random()*1000000))
+        #custEmail = request.form['customerEmailAdd']
+        #transferAmt = int(float(request.form['transferAmount'])*100)
+        #transferRemarks = request.form['transferRemarks']
+        #transactionID = request.form['transactionID']
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "26e6087c-843f-4370-8ba4-a55346997a3c,c52a5f2e-09de-4359-98bd-3bb36e480c6d"
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
+
+@app.route('/BuyEthereum', methods=['POST'])
+def BuyEthereum():
+    session_var_value = session.get('key')
+    if request.method == "POST":
+        token = session['oauth_token']
+        customersAccount = session['fidor_customer']
+        customerDetails = customersAccount['data'][0]
+
+        fidorID = customerDetails['id']
+        custEmail = "1802309C@student.tp.edu.sg"
+        transferAmt = int(float(request.form['rate']) * 100)
+        transferRemarks = "Buying Ethereum"
+        transactionID = str(int(random.random()*1000000))
+        #custEmail = request.form['customerEmailAdd']
+        #transferAmt = int(float(request.form['transferAmount'])*100)
+        #transferRemarks = request.form['transferRemarks']
+        #transactionID = request.form['transactionID']
+
+        url = "https://api.tp.sandbox.fidor.com/internal_transfers"
+
+        payload = "{\n\t\"account_id\": \""+fidorID+"\", \n\t\"receiver\": \"" + custEmail+"\", \n\t\"external_uid\": \"" + \
+            transactionID+"\", \n\t\"amount\": " + \
+            str(transferAmt)+",\n\t\"subject\": \""+transferRemarks+"\"\n}\n"
+
+        headers = {
+            'Accept': "application/vnd.fidor.de;version=1;text/json",
+            'Authorization': "Bearer "+token["access_token"],
+            'Content-Type': "application/json",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "26e6087c-843f-4370-8ba4-a55346997a3c,c52a5f2e-09de-4359-98bd-3bb36e480c6d"
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        print("process="+response.text)
+
+        transactionDetails = json.loads(response.text)
+        return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)

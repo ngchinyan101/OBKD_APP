@@ -1,0 +1,84 @@
+<!-- NG CHIN YAN 1802309C-->
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="formcenter">
+    <h2 id="title"><u>Latest Bitcoin Rate Price</u></h2>
+    <h4><b>From Currency:</b> {{ bFromCode }} ({{ bFromName }})</h4>
+    <h4><b>To Currency:</b> {{ bToCode }} ({{ bToName }})</h4>
+    <h4><b>Exchange Rate:</b> <b id="bitcoinRate">{{ bRate }}</b></h4>
+    <h4><b>Date and time:</b> {{ bTime }}</h4>
+
+    <button type="button" id="buybtn" onclick="buy()" style="align-items: center;">
+        Buy Bitcoin
+    </button>
+
+</div>
+
+<a href="cryptocurrency">Back to cryptocurrency</a>
+
+<br>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Buy Bitcoin</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div>
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="staticEmail2" class="sr-only">Amount: </label>
+                        <input type="text" readonly="" class="form-control-plaintext" id="staticEmail2" value="Amount:">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputPassword2" class="sr-only"></label>
+                        <input type="text" class="form-control" id="inputPassword2"
+                            placeholder="please input the amount">
+                    </div>
+                    <button class="btn btn-primary mb-2" onclick="displayBitcoin()">Calculate</button>
+                </form>
+                <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
+                    <form class="form-inline" action="BuyBitcoin" method="POST">
+                        <div class="form-group mb-2">
+                            <label for="staticEmail3" class="sr-only">Price(SGD): </label>
+                            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3"
+                                value="Price(SGD): ">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputPassword3" class="sr-only">$110</label>
+                            <input name="rate" readonly="" type="text" class="form-control" id="inputPassword3"
+                                placeholder="$110">
+                        </div>
+                        <button type="submit" class="btn btn-warning mb-2">Submit</button>
+                    </form>
+                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayBitcoin() {
+        let rate = {{ bRate }} * Number.parseFloat(document.querySelector("#inputPassword2").value);
+    if (rate > 500.0) {
+        window.alert("You cannot transfer more than SGD$500");
+        document.querySelector("#result").style = "visibility:visible;";
+        document.querySelector("#inputPassword2").value = 500 / {{ bRate }};
+    document.querySelector("#inputPassword3").value = 500;
+    return;
+          }
+    document.querySelector("#result").style = "visibility:visible;";
+    document.querySelector("#inputPassword3").value = rate;
+        }
+</script>
+
+
+
+{% endblock content %}

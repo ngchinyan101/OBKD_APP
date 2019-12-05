@@ -783,3 +783,104 @@ def process():
 
         transactionDetails = json.loads(response.text)
         return render_template('transfer_result.html', title='Confirmation', fTransactionID=transactionDetails["id"], custEmail=transactionDetails["receiver"], fRemarks=transactionDetails["subject"], famount=(float(transactionDetails["amount"])/100), fRecipientName=transactionDetails["recipient_name"], ses=session_var_value)
+
+# litecoin section
+@app.route('/litecoin', methods=['GET'])
+def litecoin():
+    session_var_value = session.get('key')
+    return render_template('litecoin.html', title='Litecoin', ses=session_var_value)
+
+
+@app.route('/litecoinresult', methods=['GET', 'POST'])
+def litecoinresult():
+    session_var_value = session.get('key')
+    error = None
+    if request.method == "POST":
+        litecoinCode = request.form['litecoinSymbol']
+        api_key = 'Y0N5J0ZJLKJACDU2'
+
+        url = "https://www.alphavantage.co/query"
+
+        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                       "from_currency": "LTC", "to_currency": "SGD", "apikey": api_key}
+
+        headers = {
+            'User-Agent': "PostmanRuntime/7.20.1",
+            'Accept': "*/*",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "d744106b-c528-4b1b-99c9-6b386b326d92,f30915b7-80e2-407c-8899-2c7027431493",
+            'Host': "www.alphavantage.co",
+            'Accept-Encoding': "gzip, deflate",
+            'Connection': "keep-alive",
+            'cache-control': "no-cache"
+        }
+
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
+
+        litecoinData = json.loads(response.text)
+
+        fromLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+
+        fromLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+        toLitecoinCode = litecoinData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+        toLitecoinName = litecoinData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
+        lastRefreshedLitecoinDate = litecoinData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+
+        latestExchangeLitecoinRate = litecoinData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+
+    return render_template('litecoin_rate.html', title='Litecoin Rate', lFromCode=fromLitecoinCode, lFromName=fromLitecoinName, lToCode=toLitecoinCode, lToName=toLitecoinName, lCode=litecoinCode, lRate=latestExchangeLitecoinRate, lTime=lastRefreshedLitecoinDate, ses=session_var_value)
+
+
+# Ethereum section
+@app.route('/ethereum', methods=['GET'])
+def ethereum():
+    session_var_value = session.get('key')
+    return render_template('ethereum.html', title='Ethereum', ses=session_var_value)
+
+
+@app.route('/ethereumresult', methods=['GET', 'POST'])
+def ethereumresult():
+    session_var_value = session.get('key')
+    error = None
+    if request.method == "POST":
+        ethereumCode = request.form['ethereumSymbol']
+        api_key = 'Y0N5J0ZJLKJACDU2'
+
+        url = "https://www.alphavantage.co/query"
+
+        querystring = {"function": "CURRENCY_EXCHANGE_RATE",
+                       "from_currency": "ETH", "to_currency": "SGD", "apikey": api_key}
+
+        headers = {
+            'User-Agent': "PostmanRuntime/7.20.1",
+            'Accept': "*/*",
+            'Cache-Control': "no-cache",
+            'Postman-Token': "049e1368-619e-421c-9a12-c1e496fad888,e8edc3d5-18f1-4faa-befb-f12a7f88b168",
+            'Host': "www.alphavantage.co",
+            'Accept-Encoding': "gzip, deflate",
+            'Connection': "keep-alive",
+            'cache-control': "no-cache"
+        }
+
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
+
+        ethereumData = json.loads(response.text)
+
+        fromEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
+
+        fromEthereumName = ethereumData["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+
+        toEthereumCode = ethereumData["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
+
+        toEthereumName = ethereumData["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+
+        lastRefreshedEthereumDate = ethereumData["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
+
+        latestExchangeEthereumRate = ethereumData["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+
+    return render_template('ethereum_rate.html', title='Ethereum Rate', eFromCode=fromEthereumCode, eFromName=fromEthereumName, eToCode=toEthereumCode, eToName=toEthereumName, eCode=ethereumCode, eRate=latestExchangeEthereumRate, eTime=lastRefreshedEthereumDate, ses=session_var_value)
