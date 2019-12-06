@@ -1,3 +1,5 @@
+<!-- Chua Chan Xiang 1802946B -->
+
 {% extends "layout.html" %}
 
 {% block content %}
@@ -26,26 +28,59 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Trade JPY/SGD</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Buy CAD</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-            <input id="jpyValue">
-            <input id="jpyInput">
-            <br>
-            <label id="jpyresult"></label>
-            </div>
-            <div class="modal-footer">
+            <div>
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="staticEmail2" class="sr-only">Amount: </label>
+                        <input type="text" readonly="" class="form-control-plaintext" id="staticEmail2" value="Amount:">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputPassword2" class="sr-only"></label>
+                        <input type="text" class="form-control" id="inputPassword2"
+                            placeholder="please input the amount">
+                    </div>
+                    <button class="btn btn-primary mb-2" onclick="displayJPY()">Calculate</button>
+                </form>
+                <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
+                    <form class="form-inline" action="BuyJPY" method="POST">
+                        <div class="form-group mb-2">
+                            <label for="staticEmail3" class="sr-only">Price(SGD): </label>
+                            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3"
+                                value="Price(SGD): ">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputPassword3" class="sr-only">$110</label>
+                            <input name="rate" readonly="" type="text" class="form-control" id="inputPassword3"
+                                placeholder="$110">
+                        </div>
+                        <button type="submit" class="btn btn-warning mb-2">Submit</button>
+                    </form>
+                </div>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a href="/services"><button type="button" class="btn btn-primary">Buy</button></a>
             </div>
         </div>
     </div>
 </div>
 
-
+<script>
+    function displayJPY(){
+      let price = {{ bPrice }} * Number.parseFloat(document.querySelector("#inputPassword2").value);
+      if (price > 500.0){
+        window.alert("You cannot transfer more than SGD$500");
+        document.querySelector("#result").style = "visibility:visible;";
+        document.querySelector("#inputPassword2").value = 500 / {{bPrice}};
+        document.querySelector("#inputPassword3").value = 500;
+        return;
+      }
+      document.querySelector("#result").style = "visibility:visible;";
+      document.querySelector("#inputPassword3").value = price;
+    }
+  </script>
 
     {% else %}
     <div id="formcenter">

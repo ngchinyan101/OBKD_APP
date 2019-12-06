@@ -1,3 +1,4 @@
+<!-- Anwar Khan 1803283I -->
 {% extends "layout.html" %}
 
 {% block content %}
@@ -14,13 +15,67 @@
     <h3><b>EURO (AM) :</b> {{euroam}}</h3>
     <h3><b>EURO (PM) :</b> {{europm}}</h3>
 
-    <p>
-        <a href="/services"><button class="w3-button w3-white w3-border w3-border-red w3-round-large">Buy</button></a>
-    </p>
+    <button type="button" id="buybtn" onclick="buygold()" style="align-items: center;">
+        Buy Gold
+    </button>
 </div>
 
-
-
 <a href="preciousmetal">Back to Precious Metals</a>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Buy Gold</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div>
+                    <form class="form-inline">
+                        <div class="form-group mb-2">
+                          <label for="staticEmail2" class="sr-only">Amount: </label>
+                          <input type="text" readonly="" class="form-control-plaintext" id="staticEmail2" value="Amount:">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                          <label for="inputPassword2" class="sr-only"></label>
+                          <input type="text" class="form-control" id="inputPassword2" placeholder="please input the amount">
+                        </div>
+                        <button class="btn btn-primary mb-2" onclick="displayGold();return false;">Calculate</button>
+                      </form>
+                      <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
+                        <form class="form-inline" action="BuyGOLD" method="POST">
+                          <div class="form-group mb-2">
+                            <label for="staticEmail3" class="sr-only">Price(SGD): </label>
+                            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3" value="Price(SGD): ">
+                          </div>
+                          <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputPassword3" class="sr-only">$110</label>
+                            <input name="price" readonly="" type="text" class="form-control" id="inputPassword3" placeholder="$110">
+                          </div>
+                          <button type="submit" class="btn btn-warning mb-2">Submit</button>
+                        </form>
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+<script>
+    function displayGold(){
+      let price = {{ usdpm }} * Number.parseFloat(document.querySelector("#inputPassword2").value);
+      if (price > 500.0){
+        window.alert("You cannot transfer more than SGD$500");
+        document.querySelector("#result").style = "visibility:visible;";
+        document.querySelector("#inputPassword2").value = 500 / {{usdpm}};
+        document.querySelector("#inputPassword3").value = 500;
+        return;
+      }
+      document.querySelector("#result").style = "visibility:visible;";
+      document.querySelector("#inputPassword3").value = price;
+    }
+  </script>
 
 {% endblock content %}

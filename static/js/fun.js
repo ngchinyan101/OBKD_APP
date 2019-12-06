@@ -96,7 +96,7 @@ $(document).ready(function () {
 
 // silver
 
-function buygold() {
+function buysilver() {
     $('#exampleModal').modal('show')
     var r = $("#sRate").text()
     $('#sValue').val(r)
