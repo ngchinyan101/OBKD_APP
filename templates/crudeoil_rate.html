@@ -17,61 +17,104 @@
     <h4><b>Last Refreshed:</b> {{lastref}}</h4>
 
     <br>
+
     {% if cCode %}
     <h4>Conversion rate from USD to SGD is at <b>{{covert}}</b> as of <b>{{date}}</b></h4>
-
+    <br>
+    <br>
     <button type="button" id="buybtn" onclick="crudeoil()" style="align-items: center;">
         Buy Crude Oil Stocks
     </button>
+    <BR>
+    <BR>
+    <BR>
+    <h3><u>Other commonly traded crude oil prices to compare to</u></h3>
+    <BR>
+    <BR> 
 
 
-    {%else%}
-    <div id="formcenter">
-        <h1> No rate data</h1>
-    </div>
-    {% endif %}
+    <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/futures/" rel="noopener" target="_blank"><span class="blue-text">Commodities</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+    {
+    "colorTheme": "light",
+    "dateRange": "3m",
+    "showChart": true,
+    "locale": "en",
+    "largeChartUrl": "",
+    "isTransparent": false,
+    "width": "1073",
+    "height": "770",
+    "plotLineColorGrowing": "rgba(33, 150, 243, 1)",
+    "plotLineColorFalling": "rgba(33, 150, 243, 1)",
+    "gridLineColor": "rgba(233, 233, 234, 1)",
+    "scaleFontColor": "rgba(120, 123, 134, 1)",
+    "belowLineFillColorGrowing": "rgba(33, 150, 243, 0.12)",
+    "belowLineFillColorFalling": "rgba(33, 150, 243, 0.12)",
+    "symbolActiveColor": "rgba(33, 150, 243, 0.12)",
+    "tabs": [
+      {
+        "title": "Commodities",
+        "symbols": [
+          {
+            "s": "TVC:USOIL",
+            "d": "US WTI CRUDE OIL"
+          },
+          {
+            "s": "TVC:UKOIL",
+            "d": "UK BRENT CRUDE OIL"
+          }
+        ],
+        "originalTitle": "Commodities"
+      }
+    ]
+  }
+    </script>
+  </div>
 
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Buy Crude Oil Stock</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form class="form-inline">
-                <div class="form-group mb-2">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Buy Crude Oil</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div>
+              <form class="form-inline">
+                  <div class="form-group mb-2">
                     <label for="staticEmail2" class="sr-only">Amount: </label>
                     <input type="text" readonly="" class="form-control-plaintext" id="staticEmail2" value="Amount:">
-                </div>
-                <div class="form-group mx-sm-3 mb-2">
+                  </div>
+                  <div class="form-group mx-sm-3 mb-2">
                     <label for="inputPassword2" class="sr-only"></label>
                     <input type="text" class="form-control" id="inputPassword2" placeholder="please input the amount">
-                </div>
-                <button class="btn btn-primary mb-2" onclick="display();return false;">Calculate</button>
-            </form>
-            <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
-                <form class="form-inline" action="BuyCrudeOil" method="POST">
+                  </div>
+                  <button class="btn btn-primary mb-2" onclick="display();return false;">Calculate</button>
+                </form>
+                <div id="result" class="d-flex justify-content-center" style="visibility:hidden;">
+                  <form class="form-inline" action="BuyCrudeOil" method="POST">
                     <div class="form-group mb-2">
-                        <label for="staticEmail3" class="sr-only">Price(SGD): </label>
-                        <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3" value="Price(SGD): ">
+                      <label for="staticEmail3" class="sr-only">Price(SGD): </label>
+                      <input type="text" readonly="" class="form-control-plaintext" id="staticEmail3" value="Price(SGD): ">
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <label for="inputPassword3" class="sr-only">$110</label>
-                        <input name="price" readonly="" type="text" class="form-control" id="inputPassword3"
-                            placeholder="$110">
+                      <label for="inputPassword3" class="sr-only">$110</label>
+                      <input name="price" readonly="" type="text" class="form-control" id="inputPassword3" placeholder="$110">
+                    </div>
+                    <button type="submit" class="btn btn-warning mb-2">Submit</button>
+                  </form>
+      </div>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  </div>
+</div>
+</div>
+</div>
 
-                        <button type="submit" class="btn btn-warning mb-2">Submit</button>
-                </form>
-            </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-</div>
-</div>
 
 <script>
     function display() {
@@ -87,11 +130,25 @@
     document.querySelector("#inputPassword3").value = price;
 }
 </script>
+  <!-- TradingView Widget END -->
+
+
+
+
+    {%else%}
+    <div id="formcenter">
+        <h1> No rate data</h1>
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+
 <br>
 <br>
 <br>
-<br>
-<a href="oilnews">To Crude Oil News</a>
 <br>
 <br>
 <a href="crudeoil">To Crude Oil Page</a>
