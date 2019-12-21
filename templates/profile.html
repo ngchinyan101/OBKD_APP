@@ -3,22 +3,37 @@
 
 {% block content %}
 
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+    text-align: left;    
+  }
+  </style>
 
-<div class="row">
-  <div class="col-md-12 blog-main">
-    <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
-      My Profile
-    </h3>
+  <p style="align-items: center;">
+    <a class="btn btn-default btn btn-outline-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Profile
+    </a>
+    <a class="btn btn-default btn btn-outline-dark" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Pay Out Transactions
+    </a>
+    <a class="btn btn-default btn btn-outline-dark" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Transaction History
+    </a>
+  </p>
 
-    <!-- <div id="formcenter">
-        <h4><b>Account No.:</b> {{ fAccountNo }}</h4>
-        <h4><b>Balance:</b> {{ fBalance }}</h4>
-        <h4><b>Email Account:</b> {{ fEmailAccount }}</h4>
-        <h4 ><b>First Name:</b> {{ fFirstName }}</h4>
 
-    </div> -->
-
-    <table class="w3-table w3-striped w3-bordered">
+  <div class="collapse" id="collapseExample">
+    <div class="col-md-12 blog-main">
+      <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
+        My Profile
+      </h3>
+    </div>
+    <table style="width: 100%;">
       <tr>
         <th class="w3-center">Account No.:</th>
         <td class="w3-center">{{ fAccountNo }}</td>
@@ -38,44 +53,47 @@
     </table>
   </div>
 
-      <div class="col-md-12 blog-main">
-        <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
-          My Pay Out Transaction History
-        </h3>
 
-  
-    <table class="w3-table w3-striped w3-bordered">
-        {% for post in reci %} 
-      <tr>
-        <th class="w3-center">Name:</th>
-        <td class="w3-center">{{ post.recipient_name}}</td>
+  <div class="collapse" id="collapseExample2">
+    <div class="col-md-12 blog-main">
+      <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
+        Pay Out Transactions
+      </h3>
+    </div>
+    <table style="width: 100%;">
+      {% for post in reci %} 
+    <tr>
+      <th class="w3-center">Name:</th>
+      <td class="w3-center">{{ post.recipient_name}}</td>
+    </tr>
+    <tr>
+      <th class="w3-center">Created At:</th>
+      <td class="w3-center">{{ post.created_at }}</td>
+    </tr>
+    <tr>
+      <th class="w3-center">Amount:</th>
+      <td class="w3-center">${{ post.amount/100 }}</td>
+    </tr>
+    <tr>
+      <th class="w3-center">Remarks:</th>
+      <td class="w3-center">{{ post.subject }}</td>
+    </tr>
+    <tr>
+        <th class="w3-center"></th>
+        <td class="w3-center"></td>
       </tr>
-      <tr>
-        <th class="w3-center">Created At:</th>
-        <td class="w3-center">{{ post.created_at }}</td>
-      </tr>
-      <tr>
-        <th class="w3-center">Amount:</th>
-        <td class="w3-center">${{ post.amount/100 }}</td>
-      </tr>
-      <tr>
-        <th class="w3-center">Remarks:</th>
-        <td class="w3-center">{{ post.subject }}</td>
-      </tr>
-      <tr>
-          <th class="w3-center"></th>
-          <td class="w3-center"></td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% endfor %}
+  </table>
   </div>
 
-  <div class="col-md-12 blog-main">
-      <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
-        All Transaction 
-      </h3>
 
-  <table class="w3-table w3-striped w3-bordered">
+  <div class="collapse" id="collapseExample3">
+    <div class="col-md-12 blog-main">
+      <h3 class="pb-4 mb-4 font-italic border-bottom" style="text-align: center;">
+        Transaction History
+      </h3>
+    </div>
+    <table style="width: 100%;">
       {% for post in posts %}
     <tr>
       <th class="w3-center">Name:</th>
@@ -103,31 +121,7 @@
       </tr>
     {% endfor %}
   </table>
-</div>
-
-
-
-  <!-- History menu -->
-  <div id="menu2" class="container tab-pane fade"><br>
-    <h4>Transferred</h4>
-    <div class="row">
-      <div class="col-md-6">
-        {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.transaction_type_details.remote_name}}</a>
-              <small class="text-muted">{{ post.created_at }}</small>
-            </div>
-            <h4><a>${{ post.amount/100 }}</a></h4>
-            <p class="article-content">{{ post.transaction_type_details.internal_transfer_id }}</p>
-            <p class="article-content">Transaction Type: {{ post.transaction_type }}</p>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-    </div>
   </div>
-</div>
+
 
 {% endblock content %}
